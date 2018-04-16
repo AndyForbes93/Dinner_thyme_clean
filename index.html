@@ -16,19 +16,26 @@
     <link rel="SHORTCUT ICON" href="assets/images/plates.png" type="image/x-icon" />
     <!--link to stylesheet-->
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
+
+    
 </head>
 
 <body>
-
-        <form action="" method="POST" role="form">
-                <div class="form-group">
-                    <label for="">Email</label>
-                    <input type="text" class="form-control" id="email" placeholder="Input field">
-                    <label for="">password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Input field" >
-                </div>
-                <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
-        </form>
+    <div id="modal">
+        <!-- Modal content -->
+        <div id="modal-content">
+            <form action="" method="POST" role="form">
+                    <div class="form-group">
+                        <label class ="formText">Email</label>
+                        <input type="text" class="form-control" id="email" placeholder="Input field">
+                        <label class="formText">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Input field" >
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="modalBtn">Create Account</button>
+                    <button type="submit" class="btn btn-primary" id="closeModal">Close</button>
+            </form>
+        </div>
+    </div>
     <!--navbar to top of landing oage for name of app-->
     <nav>
         <div class="nav-wrapper green darken-2">
@@ -37,9 +44,23 @@
                 </i>
                 <span id="bold">Dinner</span>
                 <span id="thin">Thyme</span>
+                <div class="right-align">
+                    <a class="waves-effect waves-light btn right-align" id="signupBtn">Signup!</a>
+                    <a class="waves-effect waves-light btn" id="sign-in-Btn">Sign in!</a>
+                    <div class="input-field inline">
+                        <input id="email_inline" type="email" class="validate">
+                        <label for="email_inline">Email</label>
+                    </div>
+                    <div class="input-field inline">
+                            <input id="email_inline" type="email" class="validate">
+                            <label for="email_inline">Email</label>
+                    </div>
+                </div>
             </a>
         </div>
     </nav>
+
+    
     <!--jumbotron to show main image of landing page, carolsel to be added later-->
     <div class="container">
         <div class="row">
@@ -98,11 +119,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
         <div class="container hide">
             <div id="recipe-display">
                 <div class="row recipe-card ">
