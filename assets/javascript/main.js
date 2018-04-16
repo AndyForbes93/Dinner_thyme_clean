@@ -71,6 +71,17 @@ $(document).ready(function () {
 
     getCurrentUser();
 
+    const appendCurrentUser = function() {
+        var user = firebase.auth().currentUser;
+        var name, email, photoUrl, uid, emailVerified;
+        if (user != null) {
+          email = user.email;
+          uid = user.uid;  
+        }
+    }
+
+    appendCurrentUser();
+
     const validateSearch = function() {
         if (search === "") {
             $("#searchLabel").hide()
