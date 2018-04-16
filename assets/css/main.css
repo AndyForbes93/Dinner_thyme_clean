@@ -1,0 +1,46 @@
+body {
+    font-family: 'Oswald', sans-serif;
+    font-size: 48px;
+}
+
+#bold {
+    font-weight: 900;
+    font-size: 48px;
+}
+
+#thin {
+    font-weight: 100;
+    font-style: italic;
+    font-size: 40px;
+}
+
+.jumbotron {
+    margin-top: 40px;
+    height: 450px;
+    background-image: url("https://www.budgetbytes.com/wp-content/uploads/2018/01/Sheet-Pan-BBQ-Meatloaf-Dinner-plate.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position-y: -175px;
+}
+
+.nav-wrapper {
+    padding-left: 20px;
+}
+
+#ingredientList {
+    font-size: 12px;
+}
+
+.ingredient-title {
+    font-size: 26px;
+}
+.card-content{
+    font-size: 15px;
+}
+.button{
+    font-size: 12px;
+    color: white;
+    border-radius: 4px;
+    border: 10px solid transparent;
+
+}

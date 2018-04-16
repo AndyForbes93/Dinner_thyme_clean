@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dinner Thyme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--link for font-->
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!--link for icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--link for favicon in tab-->
+    <link rel="SHORTCUT ICON" href="assets/images/plates.png" type="image/x-icon" />
+    <!--link to stylesheet-->
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
+
+
+
+
+</head>
+
+<body>
+    <!--navbar to top of landing oage for name of app-->
+    <nav>
+        <div class="nav-wrapper green darken-2">
+            <a href="index.html" class="brand-logo">
+                <i class="material-icons">restaurant
+                </i>
+                <span id="bold">Dinner</span>
+                <span id="thin">Thyme</span>
+            </a>
+        </div>
+    </nav>
+    <!--jumbotron to show main image of landing page, carolsel to be added later-->
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card-panel jumbotron">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--input form to search ingredients with search button-->
+    <div class="container">
+        <div class="row">
+            <div class="col s2 m2"></div>
+            <div class="col s8 m8">
+                <input placeholder="" id="ingredient-input" type="text" class="validate z-depth-4">
+                <label for="search_ingredient">Search ingredients</label>
+            </div>
+        </div>
+        <div class="center-align">
+            <button class="btn waves-effect waves-light z-depth-4 green darken-1" type="submit" name="action" id="submit">Search
+                <i class="material-icons right z-depth-4 green darken-1">search</i>
+            </button>
+        </div>
+    </div>
+    <!--this is the section where the cards displaying the recipes will be appened-->
+
+
+
+    <div class="row" id="add-cards-here">
+        <div id='myModal' class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content hide">
+                    <div class="modal-header tw-line">
+                        <h5 class="modal-title">hamburger</h5>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="row modal-body justify-content-center">
+                        <img class="tw-modal-pic " src="assets/images/hamburger.jpg">
+                    </div>
+                    <div class="modal-body">
+                        <ul id='calorie-card' class="tw-line tw-line-2 get-cleared">
+
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <p>The recipe will go here for the description of how to cook it and stuff. lorem ipsum amit some words.
+                        </p>
+                    </div>
+                    <div class="tw-line-2 tw-padding">
+                        <button style="float:right" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="container hide">
+            <div id="recipe-display">
+                <div class="row recipe-card ">
+                    <!-- <a href=# target="_blank" id="recipe-card-0">-->
+                        <div class="col s1 m1"></div>
+                    <div class="col s10 m10">
+                        <div class="row hoverable">
+                            <h2 class="header" id="recipe-name-0"></h2>
+                            <div class="card horizontal">
+                                <div class="card-image">
+                                    <img id="recipe-image-0" src="#" height="300px">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-content">
+                                        <p id="ingredientList-0">
+                                            <span class="ingredient-title">Ingredients needed: </span>
+                                        </p>
+                                    </div>
+                                    <div class="card-action">
+                                        <div class="button">
+                                            <button class="button waves-effect waves-light z-depth-4 green darken-1" id="0">View Nutrition</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  </a>-->
+            </div>
+            <div class="row recipe-card ">
+                <!--   <a href=# target="_blank" id="recipe-card-1">-->
+                <div class="col s1 m1"></div>
+                <div class="col s10 m10">
+                    <div class="row hoverable">
+                        <h2 class="header" id="recipe-name-1"></h2>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                                <img id="recipe-image-1" src="#" height="300px">
+                            </div>
+                            <div class="card-stacked">
+                                <div class="card-content">
+                                    <p id="ingredientList-1">
+                                        <span class="ingredient-title">Ingredients needed: </span>
+                                    </p>
+                                </div>
+                                <div class="card-action">
+                                    <div class="button">
+                                        <button class="button waves-effect waves-light z-depth-4 green darken-1" data-toggle="modal" data-target=".bd-example-modal-lg"
+                                            id="1">View Nutrition</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--   </a>-->
+            </div>
+            <div class="row recipe-card ">
+               <!-- <a href=# target="_blank" id="recipe-card-2">-->
+                    <div class="col s1 m1"></div>
+                    <div class="col s10 m10">
+                        <div class="row hoverable">
+                            <h2 class="header" id="recipe-name-2"></h2>
+                            <div class="card horizontal">
+                                <div class="card-image">
+                                    <img id="recipe-image-2" src="#" height="300px">
+                                </div>
+                                <div class="card-stacked">
+                                    <div class="card-content">
+                                        <p id="ingredientList-2">
+                                            <span class="ingredient-title">Ingredients needed: </span>
+                                        </p>
+                                    </div>
+                                    <div class="card-action">
+                                        <div class="button" id="2">
+                                            <button class="button waves-effect waves-light z-depth-4 green darken-1" id="2">View Nutrition</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              <!--  </a>-->
+            </div>
+            <div class="row recipe-card ">
+               <!-- <a href=# target="_blank" id="recipe-card-3">-->
+                    <div class="col s1 m1"></div>
+                    <div class="col s10 m10">
+                        <div class="row hoverable">
+                            <h2 class="header" id="recipe-name-3"></h2>
+                            <div class="card horizontal">
+                                <div class="card-image">
+                                    <img id="recipe-image-3" src="#" height="300px">
+                                </div>
+                                <div class="card-stacked">
+                                    <div class="card-content">
+                                        <p id="ingredientList-3">
+                                            <span class="ingredient-title">Ingredients needed: </span>
+                                        </p>
+                                    </div>
+                                    <div class="card-action">
+                                        <div class="button" id="3">
+                                            <button class="button waves-effect waves-light z-depth-4 green darken-1" id="3">View Nutrition</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="row recipe-card ">
+                <!-- <a  target="_blank" id="recipe-card-4">-->
+                <div class="col s1 m1"></div>
+                <div class="col s10 m10">
+                    <div class="row hoverable">
+                        <h2 class="header" id="recipe-name-4"></h2>
+                        <div class="card horizontal">
+                            <div class="card-image">
+                                <img id="recipe-image-4" src="#" height="300px">
+                            </div>
+                            <div class="card-stacked">
+                                <div class="card-content">
+                                    <p id="ingredientList-4">
+                                        <span class="ingredient-title">Ingredients needed: </span>
+                                    </p>
+                                </div>
+                                <div class="card-action">
+                                    <div class="button" id="4">
+                                        <button class="button waves-effect waves-light z-depth-4 green darken-1" id="4">View Nutrition</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  </a>-->
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!--jQuery cdn-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!--javascript link-->
+
+    <script src="assets/javascript/main.js"></script>
+    <!--firebase link-->
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <!--lingk for modal display-->
+
+  <!--  <script src="assets/javascript/app.js"></script>-->
+
+
+</body>
+
+</html>
