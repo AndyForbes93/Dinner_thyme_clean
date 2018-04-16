@@ -17,11 +17,25 @@ $(document).ready(function () {
     // Hiding text until invalid search is run.
     $("#invalidSearch").hide();
 
-    const validateSearch = function () {
+
+    $("#submitBtn").on("click", function(e) {
+        e.preventDefault();
+        let email = $("#email").val().trim();
+        let password = $("#password").val().trim();
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+    });
+    
+    const validateSearch = function() {
         if (search === "") {
             $("#searchLabel").hide()
             $("#invalidSearch").show();
-            setTimeout(function () {
+            setTimeout(function() {
+
                 $("#searchLabel").show();
                 $("#invalidSearch").hide();
             }, 1000)
@@ -31,6 +45,7 @@ $(document).ready(function () {
             $(".recipeCardContainer").html("");
         }
     }
+
 
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
@@ -161,11 +176,9 @@ $(document).ready(function () {
             makeRecipeCard(response);
         });
 
-
-    });
+    
 
     $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal-trigger').modal();
     });
-});
