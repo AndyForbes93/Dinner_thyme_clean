@@ -17,7 +17,7 @@ $(document).ready(function () {
     // Hiding text until invalid search is run.
     $("#invalidSearch").hide();
 
-    $("#modalBtn").on("click", function(e) {
+    $("#createAcc").on("click", function(e) {
         e.preventDefault();
         let email = $("#email").val().trim();
         let password = $("#password").val().trim();
@@ -25,16 +25,20 @@ $(document).ready(function () {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
-        });        
+        });
+        $("#modal").hide();        
     });
 
     $("#sign-in-Btn").on("click", function() {
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        let signInEmail = $("#email_inline").val().trim();
+        let signInPassword = $("#password_inline").val().trim();
+        firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
         });
+        $(signInEmail, signInPassword).val("");
     });
 
     $("#signupBtn").on("click", function() {
@@ -129,7 +133,7 @@ $(document).ready(function () {
                                 });
 
                     });
-            }//end of if statent
+            }//end of if statment
         })
 
 

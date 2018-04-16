@@ -131,3 +131,13 @@ body {
 #closeModal {
     background-color: red;
 }
+
+.validateInput{
+    display: flex;
+    align-items: center;
+    width: 200px !important;
+    background-color: white !important;
+    border: 1px solid black !important;
+    margin-right: 50px !important;
+    height: 30px !important;
+}
