@@ -17,6 +17,7 @@ $(document).ready(function () {
     // Hiding text until invalid search is run.
     $("#invalidSearch").hide();
 
+
     $("#submitBtn").on("click", function(e) {
         e.preventDefault();
         let email = $("#email").val().trim();
@@ -34,70 +35,130 @@ $(document).ready(function () {
             $("#searchLabel").hide()
             $("#invalidSearch").show();
             setTimeout(function() {
+
                 $("#searchLabel").show();
                 $("#invalidSearch").hide();
             }, 1000)
         } else {
             search = $("#ingredient-input").val();
+            $(".container").removeClass("hide");
+            $(".recipeCardContainer").html("");
         }
     }
 
-    const makeRecipeCard = function(response) {
+
+    const makeRecipeCard = function (response) {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
+    
+        obj.recipes.forEach(function (recipe, index, arr) {
+            if (index <= 4) {
 
-        //console.log(obj);
-        for (var i = 0; i < 5; i++) {
-            // console.log(obj.recipes[i].title);
-            // console.log(obj.recipes[i].recipe_id);
-            recipeIdArray.push(obj.recipes[i].recipe_id);
-            $("#recipes").append(obj.recipes[i].title + "<br>");
-            $("#recipes").append("<ul><li><a href='#'>" +obj.recipes[i].title+ "</a></li></ul>");
-
-        }
-
-        for (i = 0; i < 5; i++) {
-            // console.log(obj.recipes[i].title);
-            // console.log(obj.recipes[i].recipe_id);
-            //trying to append five cards for search
-            var name = obj.recipes[i].title;
-            var number = obj.recipes[i].recipe_id;
-            recipeIdArray.push(obj.recipes[i].recipe_id);
-            $("#recipe-name").text(name);
-            $("#recipe-image").attr("src", obj.recipes[i].image_url);
-        }
-    } 
-
-    const appendIngredients = function(newresponse) {
-        var obj = jQuery.parseJSON(newresponse);
-            let ingredientArr = obj.recipe.ingredients;
-            for(var i = 0; i < ingredientArr.length; i++) {
-                let list = $("<ul>");
-                let listItem = $("<li>");
-                $(list).append(listItem);
-                listItem.text(ingredientArr[i]);
-                $("#ingredientList").append(list);
-        
-                var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + ingredientArr[i] +"?&appId=f35ae0d0&appKey=b148a8cfc03753efc27ea05a30bfd6e9&fields=item_name,nf_calories";
-                //var queryURL = "http://cors-proxy.htmldriven.com/?url=https://api.nutritionix.com/v1_1/search/taco?&appId=f35ae0d0&appKey=80cac78d0905b2d36ca8825470f578d7";
                 
-                let totalCalories = 0;
-                let resultArr = [];
-                $.ajax({
-                    url: nutritionURL,
-                    method: "GET"
-                }).then(function (response) {
+                var recipeCard = $("<div>").addClass("row recipe-card");
+                var recipeCardColumn = $("<div>").addClass("col s10 m10");
+                recipeCardColumn.html(`
+                        <div class="row hoverable">
+                            <h2 class="header" id="recipe-name-${recipe.title}">${recipe.title}</h2>
+                            <div class="card horizontal">
+                                <div class="card-image">
+                                    <img id="recipe-image-${recipe.image_url}" src="${recipe.image_url}" height="300px">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-content">
+                                        <p class="ingredientList" id="ingredient-${recipe.recipe_id}">
+                                            <span class="ingredient-title">Ingredients needed: </span>
+                                        </p>
+                                    </div>
+                                    <div class="card-action">
+                                        <div class="button">
+                                            <button class="button waves-effect waves-light z-depth-4 green darken-1 modal-trigger" id="" data-toggle="modal-" data-target="modal-0">View Nutrition</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`);
+                $(recipeCard).append(recipeCardColumn);
+                $(".recipeCardContainer").append(recipeCard);
 
-                    for(var i = 0; i < response.hits.length; i++) {
-                        if(response.hits[i].fields.nf_calories) {
-                            resultArr.push(response.hits[i].fields.nf_calories);
-                        } else {
-                            console.log(response.hits[i].fields.item_name);
-                        }
-                    }
-                });
-            }
+                    var url = `https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=2faf058c37cad76f25dc0f61a8700b82&rId=${recipe.recipe_id}`;
+                        $.ajax({
+                            url: url,
+                            method: "GET",
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu");
+                            },
+                        }).then(function (ingredientData) {
+                            
+                            ingredientData = JSON.parse(ingredientData);
+
+                            let ingredientsArr = ingredientData.recipe.ingredients;
+                            
+                            let ingredientListArr = Array.from(document.querySelectorAll('.ingredientList'));
+
+                            console.log(ingredientListArr);
+       
+                                ingredientsArr.forEach(function(ingredient){
+                                
+                                    if(ingredientData.recipe.recipe_id === recipe.recipe_id){
+                                        
+                                        let list = $("<ul>");
+                                        let listItem = $("<li>");
+                                        listItem.text(ingredient);
+                                        $(list).append(listItem);
+                                        $(`#ingredient-${recipe.recipe_id}`).append(list);
+    
+                                    }
+                                    
+                                });
+
+                    });
+            }//end of if statent
+        })
+
+
+
+   
+
+
+        const appendIngredients = function (newresponse) {
+            var obj = jQuery.parseJSON(newresponse);
+            let ingredientArr = obj.recipe.ingredients;
+            // for (j = 0; j < 5; j++) {
+            //     ingredientArr.forEach(element => {
+
+            //     }); {
+            //         let list = $("<ul>");
+            //         let listItem = $("<li>");
+            //         $(list).append(listItem);
+            //         listItem.text(ingredientArr[i]);
+            //         $("#ingredientList-" + j).append(list);
+            //     }
+
+            //     var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + ingredientArr[i] + "?&appId=f35ae0d0&appKey=b148a8cfc03753efc27ea05a30bfd6e9&fields=item_name,nf_calories";
+            //     //var queryURL = "http://cors-proxy.htmldriven.com/?url=https://api.nutritionix.com/v1_1/search/taco?&appId=f35ae0d0&appKey=80cac78d0905b2d36ca8825470f578d7";
+
+            //     let totalCalories = 0;
+            //     let resultArr = [];
+            //     $.ajax({
+            //         url: nutritionURL,
+            //         method: "GET"
+            //     }).then(function (response) {
+
+            //         for (var i = 0; i < response.hits.length; i++) {
+            //             if (response.hits[i].fields.nf_calories) {
+            //                 resultArr.push(response.hits[i].fields.nf_calories);
+            //             } else {
+            //                 console.log(response.hits[i].fields.item_name);
+            //             }
+            //         }
+            //     });
+            // }
+        }
     }
+
+
 
     $("#submit").on("click", function test() {
         // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
@@ -115,15 +176,9 @@ $(document).ready(function () {
             makeRecipeCard(response);
         });
 
-        var url = "https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=2faf058c37cad76f25dc0f61a8700b82&rId=5cc4a8";
-        $.ajax({
-            url: url,
-            method: "GET",
-            beforeSend: function (xhr) { xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu"); },
-        }).then(function (newresponse) {
-            
-            appendIngredients(newresponse);
-        });
+    
 
-    });  
-});
+    $(document).ready(function () {
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal-trigger').modal();
+    });
