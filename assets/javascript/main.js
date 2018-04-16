@@ -17,17 +17,32 @@ $(document).ready(function () {
     // Hiding text until invalid search is run.
     $("#invalidSearch").hide();
 
-
-    $("#submitBtn").on("click", function(e) {
+    $("#modalBtn").on("click", function(e) {
         e.preventDefault();
         let email = $("#email").val().trim();
         let password = $("#password").val().trim();
-
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
+        });        
+    });
+
+    $("#sign-in-Btn").on("click", function() {
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
         });
+    });
+
+    $("#signupBtn").on("click", function() {
+        $("#modal").show();
+    });
+
+    $("#closeModal").on("click", function() {
+        $("#modal").hide();
     });
     
     const validateSearch = function() {
