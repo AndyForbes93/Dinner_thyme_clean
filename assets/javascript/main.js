@@ -17,6 +17,18 @@ $(document).ready(function () {
     // Hiding text until invalid search is run.
     $("#invalidSearch").hide();
 
+    $("#submitBtn").on("click", function(e) {
+        e.preventDefault();
+        let email = $("#email").val().trim();
+        let password = $("#password").val().trim();
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+    });
+    
     const validateSearch = function() {
         if (search === "") {
             $("#searchLabel").hide()
