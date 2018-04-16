@@ -99,6 +99,10 @@ body {
     margin-right: 10px;
 }
 
+#signoutBtn {
+    margin-right: 10px;
+}
+
 #modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -141,3 +145,5 @@ body {
     margin-right: 50px !important;
     height: 30px !important;
 }
+
+

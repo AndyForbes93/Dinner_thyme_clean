@@ -41,6 +41,14 @@ $(document).ready(function () {
         $(signInEmail, signInPassword).val("");
     });
 
+    $("#signoutBtn").on("click", function() {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+          }).catch(function(error) {
+            // An error happened.
+          });
+    });
+
     $("#signupBtn").on("click", function() {
         $("#modal").show();
     });
