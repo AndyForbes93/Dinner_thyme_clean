@@ -29,21 +29,23 @@ $(document).ready(function () {
         $("#modal").hide();        
     });
 
+    let signInEmail = $("#email_inline").val().trim();
+    let signInPassword = $("#password_inline").val().trim();
     $("#sign-in-Btn").on("click", function() {
-        let signInEmail = $("#email_inline").val().trim();
-        let signInPassword = $("#password_inline").val().trim();
+  
         firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
         });
-        $(signInEmail, signInPassword).val("");
+        $(signInEmail, signInPassword).val('');
     });
 
     $("#signoutBtn").on("click", function() {
-        firebase.auth().signOut().then(function() {
+        firebase.auth().signOut().then(function(user) {
             // Sign-out successful.
+            console.log(user.email + "Has signed out.");
           }).catch(function(error) {
             // An error happened.
           });
