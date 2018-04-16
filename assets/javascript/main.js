@@ -11,178 +11,107 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
     const database = firebase.database();
-
     //add searchbar validation input
     var search;
+    var recipeIdArray = [];
+    // Hiding text until invalid search is run.
+    $("#invalidSearch").hide();
 
-    $("#submit").on("click", function test() {
-        //making cards appear
-        $(".container").removeClass("hide")
-
-        //ingredient search
+    const validateSearch = function() {
         if (search === "") {
-            alert("Please enter a search query");
+            $("#searchLabel").hide()
+            $("#invalidSearch").show();
+            setTimeout(function() {
+                $("#searchLabel").show();
+                $("#invalidSearch").hide();
+            }, 1000)
         } else {
             search = $("#ingredient-input").val();
         }
+    }
 
-        //queryURL and array to push recipes into 
-        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=716be10f3517e512858d539e14920f86&sort=r&page=1&q=" + search;
+    const makeRecipeCard = function(response) {
+        let recipeCount = response.count;
+        var obj = jQuery.parseJSON(response);
 
-        var recipeIdArray = [];
+        //console.log(obj);
+        for (var i = 0; i < 5; i++) {
+            // console.log(obj.recipes[i].title);
+            // console.log(obj.recipes[i].recipe_id);
+            recipeIdArray.push(obj.recipes[i].recipe_id);
+            $("#recipes").append(obj.recipes[i].title + "<br>");
+            $("#recipes").append("<ul><li><a href='#'>" +obj.recipes[i].title+ "</a></li></ul>");
+
+        }
+
+        for (i = 0; i < 5; i++) {
+            // console.log(obj.recipes[i].title);
+            // console.log(obj.recipes[i].recipe_id);
+            //trying to append five cards for search
+            var name = obj.recipes[i].title;
+            var number = obj.recipes[i].recipe_id;
+            recipeIdArray.push(obj.recipes[i].recipe_id);
+            $("#recipe-name").text(name);
+            $("#recipe-image").attr("src", obj.recipes[i].image_url);
+        }
+    } 
+
+    const appendIngredients = function(newresponse) {
+        var obj = jQuery.parseJSON(newresponse);
+            let ingredientArr = obj.recipe.ingredients;
+            for(var i = 0; i < ingredientArr.length; i++) {
+                let list = $("<ul>");
+                let listItem = $("<li>");
+                $(list).append(listItem);
+                listItem.text(ingredientArr[i]);
+                $("#ingredientList").append(list);
+        
+                var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + ingredientArr[i] +"?&appId=f35ae0d0&appKey=b148a8cfc03753efc27ea05a30bfd6e9&fields=item_name,nf_calories";
+                //var queryURL = "http://cors-proxy.htmldriven.com/?url=https://api.nutritionix.com/v1_1/search/taco?&appId=f35ae0d0&appKey=80cac78d0905b2d36ca8825470f578d7";
+                
+                let totalCalories = 0;
+                let resultArr = [];
+                $.ajax({
+                    url: nutritionURL,
+                    method: "GET"
+                }).then(function (response) {
+
+                    for(var i = 0; i < response.hits.length; i++) {
+                        if(response.hits[i].fields.nf_calories) {
+                            resultArr.push(response.hits[i].fields.nf_calories);
+                        } else {
+                            console.log(response.hits[i].fields.item_name);
+                        }
+                    }
+                });
+            }
+    }
+
+    $("#submit").on("click", function test() {
+        // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
+
+        //Makes sure search isn't blank.
+        validateSearch();
+
+        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
 
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function (response) {
 
-            let recipeCount = response.count;
-
-            var obj = jQuery.parseJSON(response);
-            //for loop to append first five recipe titles and images to cards
-            for (var i = 0; i < 5; i++) {
-                recipeIdArray.push(obj.recipes[i].recipe_id);
-                $("#recipe-name-" + i).html(obj.recipes[i].title);
-                $("#recipe-image-" + i).attr("src", obj.recipes[i].image_url);
-                // $("#recipe-card-" + i).attr("href", obj.recipes[i].source_url);
-
-
-
-                var url = "https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=716be10f3517e512858d539e14920f86&rId=" + obj.recipes[i].recipe_id;
-                $.ajax({
-                    url: url,
-                    method: "GET",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu");
-                    }
-                }).then(function (newResponse) {
-                    //for loop to append list of ingredients for each recipe
-                    var recipeObj = jQuery.parseJSON(newResponse);
-                    for (var j = 0; j < recipeObj.recipe.ingredients.length; j++) {
-                        let list = $("<ul>");
-                        let listItem = $("<li>");
-                        $(list).append(listItem);
-                        listItem.text(recipeObj.recipe.ingredients[j]);
-                        $("#ingredientList-" + j).append(list);
-
-                        //setting nutriionURL to search for the ingredient at each position of the array
-                        /*     var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + recipeObj.recipe.ingredients[j] +
-                            "?&appId=3d9a6196&appKey=68a05b8f20a5908648e499d5b974c8ae&fields=item_name,nf_calories";
-
-                        let totalCalories = 0;
-                        let resultArr = [];
-                        $.ajax({
-                            url: nutritionURL,
-                            method: "GET"
-                        }).then(function (nutritionResponse) {
-
-
-
-
-                            for (var k = 0; k < nutritionResponse.hits.length; k++) {
-                                if (nutritionResponse.hits[k].fields.nf_calories) {
-                                    resultArr.push(nutritionResponse.hits[k].fields.nf_calories);
-                                } else {}
-                            }
-                        });
-
-*/
-                    }
-
-                });
-
-
-            }
+            makeRecipeCard(response);
         });
 
+        var url = "https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=2faf058c37cad76f25dc0f61a8700b82&rId=5cc4a8";
+        $.ajax({
+            url: url,
+            method: "GET",
+            beforeSend: function (xhr) { xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu"); },
+        }).then(function (newresponse) {
+            
+            appendIngredients(newresponse);
+        });
 
-    });
-
-    // !! In each of the following, inside the following 6 on-click events, all instances of recipeCards will be replaced with 
-    // the current response. the indexes of those responses should remain the same !!
-    $(".container").on("click", '#0', function () {
-        clearIng();
-        $('.modal-title').text(recipeCardArr[0].dish);
-        $('.tw-modal-pic').attr('src', imgArr[0]);
-        for (j = 0; j < recipeCardArr[0].ingredients.length; j++) {
-            mIngredientList = $('<li>').addClass('get-cleared');
-            $(mIngredientList).html(recipeCardArr[0].ingredients[j]);
-            $('#calorie-card').append(mIngredientList);
-        }
-        $('#myModal').modal('show');
-    });
-    // Modal 2
-    $(".container").on("click", '#1', function () {
-        clearIng();
-        console.log('you did it !!');
-        $('.modal-title').text(recipeCardArr[1].dish);
-        $('.tw-modal-pic').attr('src', imgArr[1]);
-        for (j = 0; j < recipeCardArr[1].ingredients.length; j++) {
-            mIngredientList = $('<li>').addClass('get-cleared');
-            $(mIngredientList).html(recipeCardArr[1].ingredients[j]);
-            $('#calorie-card').append(mIngredientList);
-        }
-        $('#myModal').modal('show');
-    });
-    // Modal 3
-    $(".container").on("click", '#2', function () {
-        clearIng();
-        console.log('you did it !!');
-        $('.modal-title').text(recipeCardArr[2].dish);
-        $('.tw-modal-pic').attr('src', imgArr[2]);
-        for (j = 0; j < recipeCardArr[2].ingredients.length; j++) {
-            mIngredientList = $('<li>').addClass('get-cleared');
-            $(mIngredientList).html(recipeCardArr[2].ingredients[j]);
-            $('#calorie-card').append(mIngredientList);
-        }
-        $('#myModal').modal('show');
-    });
-    // Modal 4
-    $(".container").on("click", '#3', function () {
-        clearIng();
-        console.log('you did it !!');
-        $('.modal-title').text(recipeCardArr[3].dish);
-        $('.tw-modal-pic').attr('src', imgArr[3]);
-        for (j = 0; j < recipeCardArr[3].ingredients.length; j++) {
-            mIngredientList = $('<li>').addClass('get-cleared');
-            $(mIngredientList).html(recipeCardArr[3].ingredients[j]);
-            $('#calorie-card').append(mIngredientList);
-        }
-        $('#myModal').modal('show');
-    });
-    // Modal 5
-    $(".container").on("click", '#4', function () {
-        clearIng();
-        console.log('you did it !!');
-        $('.modal-title').text(recipeCardArr[4].dish);
-        $('.tw-modal-pic').attr('src', imgArr[4]);
-        for (j = 0; j < recipeCardArr[4].ingredients.length; j++) {
-            mIngredientList = $('<li>').addClass('get-cleared');
-            $(mIngredientList).html(recipeCardArr[4].ingredients[j]);
-            $('#calorie-card').append(mIngredientList);
-        }
-        $('#myModal').modal('show');
-    });
-    // Modal 6
-    $(".container").on("click", '#5', function () {
-        clearIng();
-        $('.modal-title').text(recipeCardArr[5].dish);
-        $('.tw-modal-pic').attr('src', imgArr[5])
-        for (j = 0; j < recipeCardArr[5].ingredients.length; j++) {
-            mIngredientList = $('<li>').addClass('get-cleared');
-            $(mIngredientList).html(recipeCardArr[5].ingredients[j]);
-            $('#calorie-card').append(mIngredientList);
-        }
-        $('#myModal').modal('show');
-    });
-    // function to clear rows
-    function clearIt() {
-        $("#row1").empty();
-        $("#row2").empty();
-    };
-    // Clear Ingredients from the current modal list
-    function clearIng() {
-        $(".get-cleared").empty();
-    }
-
+    });  
 });
