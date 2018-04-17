@@ -8,7 +8,6 @@ $(document).ready(function () {
         messagingSenderId: "59448784946"
     };
     firebase.initializeApp(config);
-
     const database = firebase.database();
     //add searchbar validation input
     var search;
@@ -17,6 +16,7 @@ $(document).ready(function () {
     let signInEmail = $("#email_inline").val().trim();
     let signInPassword = $("#password_inline").val().trim();
 
+
     firebase.auth().onAuthStateChanged(function (user) {
 
         if (user) {
@@ -24,6 +24,7 @@ $(document).ready(function () {
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
         } else {
+
 
           // No user is signed in.
           $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
@@ -42,13 +43,14 @@ $(document).ready(function () {
             var errorCode = error.code;
             var errorMessage = error.message;
         });
+        $("#modal").hide();
 
         $("#email").val("");
         $("#password").val("");
         $("#modal").hide();        
     });
-
     var user = firebase.auth().currentUser;
+
     $("#sign-in-Btn").on("click", function() {
         // handling sign in for users stored in firebase.
         let signInEmail = $("#email_inline").val().trim();
@@ -62,6 +64,7 @@ $(document).ready(function () {
             window.alert("Error : " + errorMessage);
             // ...
         });
+
         $("#email_inline").val("");
         $("#password_inline").val("");
     });
@@ -74,6 +77,7 @@ $(document).ready(function () {
             // An error happened.
         });
     });
+
 
     $("#signupBtn").on("click", function () {
         $("#modal").show();
@@ -89,7 +93,6 @@ $(document).ready(function () {
             $("#invalidSearch").show();
             setTimeout(function () {
 
-
                 $("#searchLabel").show();
                 $("#invalidSearch").hide();
             }, 1000)
@@ -99,16 +102,12 @@ $(document).ready(function () {
             $(".recipeCardContainer").html("");
         }
     }
-
-
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
-
         obj.recipes.forEach(function (recipe, index, arr) {
-            if (index <= 0) {
-
-
+          
+            if (index <= 4) {
 
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
@@ -151,7 +150,6 @@ $(document).ready(function () {
                                 </div>`);
                 $(recipeCard).append(recipeCardColumn);
                 $(".recipeCardContainer").append(recipeCard);
-
                 var url = `https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=716be10f3517e512858d539e14920f86&rId=${recipe.recipe_id}`;
                 $.ajax({
                     url: url,
@@ -160,11 +158,8 @@ $(document).ready(function () {
                         xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu");
                     },
                 }).then(function (ingredientData) {
-
                     ingredientData = JSON.parse(ingredientData);
-
                     let ingredientsArr = ingredientData.recipe.ingredients;
-
                     let ingredientListArr = Array.from(document.querySelectorAll('.ingredientList'));
 
 
@@ -254,26 +249,20 @@ $(document).ready(function () {
 
 
                         if (ingredientData.recipe.recipe_id === recipe.recipe_id) {
-
                             let list = $("<ul>");
                             let listItem = $("<li>");
-
-
 
                             listItem.text(ingredient);
                             $(list).append(listItem);
 
                             $(`#ingredient-${recipe.recipe_id}`).append(list);
                             $(`#ingredientListNutri-${recipe.recipe_id}`).append(list);
-
                         }
-
-
                     });
-
                 });
             } //end of if statment
         })
+
 
 
 
@@ -325,6 +314,8 @@ $(document).ready(function () {
 
             makeRecipeCard(response);
         });
+    })
+
 
 
         $(".favorite").on("click", function () {
