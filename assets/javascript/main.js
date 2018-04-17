@@ -54,7 +54,6 @@ $(document).ready(function () {
             var errorMessage = error.message;
             // ...
         });
-
     });
 
     $("#signoutBtn").on("click", function() {
