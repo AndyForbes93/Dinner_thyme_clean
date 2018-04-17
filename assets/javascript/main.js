@@ -39,6 +39,7 @@ $(document).ready(function () {
             var errorCode = error.code;
             var errorMessage = error.message;
         });
+
         $("#modal").hide();        
     });
 
@@ -47,11 +48,13 @@ $(document).ready(function () {
         
         // handling sign in for users stored in firebase.
         firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
+
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
         });
+
     });
 
     $("#signoutBtn").on("click", function() {
@@ -77,6 +80,7 @@ $(document).ready(function () {
             $("#invalidSearch").show();
             setTimeout(function() {
 
+
                 $("#searchLabel").show();
                 $("#invalidSearch").hide();
             }, 1000)
@@ -91,73 +95,139 @@ $(document).ready(function () {
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
-    
+
         obj.recipes.forEach(function (recipe, index, arr) {
             if (index <= 4) {
+
+
+
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
-                recipeCardColumn.html(`
-                        <div class="row hoverable">
-                            <h2 class="header" id="recipe-name-${recipe.title}">${recipe.title}</h2>
-                            <div class="card horizontal">
-                                <div class="card-image">
-                                    <img id="recipe-image-${recipe.image_url}" src="${recipe.image_url}" height="300px">
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-content">
-                                        <p class="ingredientList" id="ingredient-${recipe.recipe_id}">
-                                            <span class="ingredient-title">Ingredients needed: </span>
-                                        </p>
-                                    </div>
-                                    <div class="card-action">
-                                        <div class="button">
-                                            <button class="button waves-effect waves-light z-depth-4 green darken-1 modal-trigger" id="" data-toggle="modal-" data-target="modal-0">View Nutrition</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`);
+                recipeCardColumn.html(`<div class="row hoverable">
+                                            <h2 class="header" id="recipe-name-${recipe.title}">${recipe.title}</h2>
+                                            <div class="card horizontal">
+                                                <div class="card-image">
+                                                    <img id="recipe-image-${recipe.image_url}" src="${recipe.image_url}" height="300px">
+                                                </div>
+                                                <div class="card-content">
+                                                    <p class="ingredientList" id="ingredient-${recipe.recipe_id}">
+                                                        <span class="ingredient-title"> </span>
+                                                    </p>
+                                                    <span class="card-title activator grey-text text-darken-4 modal-dialog modal-lg">Show Ingredients and Nutrition Information
+                                                        <i class="material-icons right">more_vert</i>
+                                                    </span>
+                                                </div>
+                                                <div class="card-reveal lists">
+                                                    <span class="card-title grey-text text-darken-4 modal-title" id="calorie-card">Show Nutrition Information
+                                                        <i class="material-icons right">close</i>
+                                                    </span>
+                                                    <div class="row tw-line">
+                                                        <div class="col s6 m6" id="ingredientListNutri-${recipe.recipe_id}">
+                                                            <div class="modal-body">
+                                                                <p>Ingredients Needed:</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col s6 m6" id="nutriList-${recipe.recipe_id}">
+                                                            <div class="modal-body">
+                                                                <p>Nutrition Information:</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>`);
                 $(recipeCard).append(recipeCardColumn);
                 $(".recipeCardContainer").append(recipeCard);
 
-                    var url = `https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=2faf058c37cad76f25dc0f61a8700b82&rId=${recipe.recipe_id}`;
-                        $.ajax({
-                            url: url,
-                            method: "GET",
-                            beforeSend: function (xhr) {
-                                xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu");
-                            },
-                        }).then(function (ingredientData) {
-                            
-                            ingredientData = JSON.parse(ingredientData);
+                var url = `https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=716be10f3517e512858d539e14920f86&rId=${recipe.recipe_id}`;
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu");
+                    },
+                }).then(function (ingredientData) {
 
-                            let ingredientsArr = ingredientData.recipe.ingredients;
-                            
-                            let ingredientListArr = Array.from(document.querySelectorAll('.ingredientList'));
+                    ingredientData = JSON.parse(ingredientData);
 
-                            console.log(ingredientListArr);
-       
-                                ingredientsArr.forEach(function(ingredient){
-                                
-                                    if(ingredientData.recipe.recipe_id === recipe.recipe_id){
-                                        
-                                        let list = $("<ul>");
-                                        let listItem = $("<li>");
-                                        listItem.text(ingredient);
-                                        $(list).append(listItem);
-                                        $(`#ingredient-${recipe.recipe_id}`).append(list);
-    
-                                    }
-                                    
-                                });
+                    let ingredientsArr = ingredientData.recipe.ingredients;
+
+                    let ingredientListArr = Array.from(document.querySelectorAll('.ingredientList'));
+
+                    console.log(ingredientListArr);
+
+                    ingredientsArr.forEach(function (ingredient) {
+
+
+                    //     let ingredientString = ingredient;
+                    //     let ingredientStringSplit = ingredientString.split("%");
+                    //    // let ingredientSearch = ingredientStringSplit.replace(" ", "%").trim();
+                        
+                    //     console.log(ingredientStringsplit);
+
+                    //     let resultArr = [];
+
+
+                        // var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + ingredient + "?&appId=510b0c3b&appKey=b148a8cfc03753efc27ea05a30bfd6e9&fields=item_name,nf_calories";
+                        // $.ajax({
+                        //     url: nutritionURL,
+                        //     method: "GET",
+                        //     success: function (response) {
+                        //         cal = response.hits[0].fields.nf_calories;
+                        //         totCal = cal + totCal;
+                        //         console.log("Total Calories:" + totCal);
+                        //     },
+                        //     error: function (xhr, ajaxOptions, thrownError) {
+                        //         if (xhr.status == 404) {
+                        //             console.log(thrownError);
+                        //         }
+                        //     }
+                        // });
+
+
+
+
+
+                        if (ingredientData.recipe.recipe_id === recipe.recipe_id) {
+
+                            let list = $("<ul>");
+                            let listItem = $("<li>");
+
+                            listItem.text(ingredient);
+                            $(list).append(listItem);
+                            $(`#ingredient-${recipe.recipe_id}`).append(list);
+                            $(`#ingredientListNutri-${recipe.recipe_id}`).append(list);
+
+                        }
+
 
                     });
-            }//end of if statment
+
+                });
+            } //end of if statment
         })
+
+
+
+    $("#submit").on("click", function test() {
+        // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
+
+        //Makes sure search isn't blank.
+        validateSearch();
+
+        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
+
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
+            makeRecipeCard(response);
+        });
+
+
     
-
-
 
 
         const appendIngredients = function (newresponse) {
@@ -204,7 +274,7 @@ $(document).ready(function () {
         //Makes sure search isn't blank.
         validateSearch();
 
-        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
+        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=716be10f3517e512858d539e14920f86&q=" + search;
 
         $.ajax({
             url: queryURL,
@@ -214,11 +284,12 @@ $(document).ready(function () {
             makeRecipeCard(response);
         });
 
-    
 
-    $(document).ready(function () {
-        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-        $('.modal-trigger').modal();
+
+        $(document).ready(function () {
+            // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+            $('.modal-trigger').modal();
+        });
     });
-  });
 })
+
