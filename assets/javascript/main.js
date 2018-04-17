@@ -17,6 +17,7 @@ $(document).ready(function () {
     let signInPassword = $("#password_inline").val().trim();
 
 
+
     firebase.auth().onAuthStateChanged(function (user) {
 
         if (user) {
@@ -26,12 +27,14 @@ $(document).ready(function () {
         } else {
 
 
+
           // No user is signed in.
           $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
           $("#userName").hide();
           console.log("No one is signed in");
         }
     });
+
 
     $("#createAcc").on("click", function (e) {
         e.preventDefault();
@@ -44,6 +47,7 @@ $(document).ready(function () {
             var errorMessage = error.message;
         });
         $("#modal").hide();
+
 
         $("#email").val("");
         $("#password").val("");
@@ -58,6 +62,7 @@ $(document).ready(function () {
         firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
 
 
+
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -65,9 +70,11 @@ $(document).ready(function () {
             // ...
         });
 
+
         $("#email_inline").val("");
         $("#password_inline").val("");
     });
+
 
     $("#signoutBtn").on("click", function () {
         firebase.auth().signOut().then(function (user) {
@@ -79,6 +86,7 @@ $(document).ready(function () {
     });
 
 
+
     $("#signupBtn").on("click", function () {
         $("#modal").show();
     });
@@ -86,6 +94,7 @@ $(document).ready(function () {
     $("#closeModal").on("click", function () {
         $("#modal").hide();
     });
+
 
 
     //globals
@@ -114,7 +123,7 @@ $(document).ready(function () {
             $("#searchLabel").hide()
             $("#invalidSearch").show();
             setTimeout(function () {
-
+              
                 $("#searchLabel").show();
                 $("#invalidSearch").hide();
             }, 1000)
@@ -128,12 +137,14 @@ $(document).ready(function () {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
         obj.recipes.forEach(function (recipe, index, arr) {
+
           
             if (index <= 4) {
 
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
                 recipeCardColumn.html(`<div class="row hoverable">
+
 
                                             <h2 class="header" id="recipe-name-${recipe.title}">${recipe.title}   
                                             <a class="waves-effect waves-light btn " id="button-${recipe.recipe_id}>"><i class="material-icons">star</i></button></a></h2>
@@ -160,10 +171,19 @@ $(document).ready(function () {
                                                             </div>
 
                                                         </div>
-                                                    </div>
-                                                    <div class="col s6 m6" id="nutriList-${recipe.recipe_id}">
-                                                        <div class="modal-body">
-                                                            <p>Nutrition Information:</p>
+
+                                                        <div class="col s6 m6" id="nutriList-${recipe.recipe_id}">
+                                                            <div class="modal-body">
+                                                                <p>Nutrition Information:</p>
+                                                                <ul>
+                                                                <li id="calorie-${recipe.recipe_id}"></li>
+                                                                <li id="fat-${recipe.recipe_id}"></li>
+                                                                <li id="carbs-${recipe.recipe_id}"></li>
+                                                                <li id="protein-${recipe.recipe_id}"></li>
+                                                                <li id="sugar-${recipe.recipe_id}"></li>
+                                                                </ul>
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -183,13 +203,13 @@ $(document).ready(function () {
                     ingredientData = JSON.parse(ingredientData);
                     let ingredientsArr = ingredientData.recipe.ingredients;
                     let ingredientListArr = Array.from(document.querySelectorAll('.ingredientList'));
-
-
                     ingredientsArr.forEach(function (ingredient) {
+
 
 
                         ingredientsArr.forEach(function (ingredient) {
                             let splitStr = ingredient.split(" ").join("%20");
+
 
 
 
@@ -205,6 +225,7 @@ $(document).ready(function () {
 
                                         totCalories = Math.floor(calories + totCalories);
                                         //  console.log("Total Calories(kcal):" + totCalories);
+
 
                                         fat = response.hits[0].fields.nf_total_fat;
                                         totFat = Math.floor(fat + totFat);
@@ -250,40 +271,29 @@ $(document).ready(function () {
                                     console.log("Total Iron(%dv):" + totIron);
                                     console.log("Total Sodium(mg):" + totSodium);
 
-                                    if (index == ingredientsArr) {
-                                        $(`#nutiList-${recipe.recipe_id}`).append("Total Calories(kcal): " + totCalories);
-                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Fat(g): " + totFat);
-                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Carbohydrates(g): " + totCarbs);
-                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Protein(g): " + totProtein);
-                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Sugar(g): " + totSugar);
-                                    }
-
-
-
+                                    $(`#calorie-${recipe.recipe_id}`).text("Total Calories(kcal): " + totCalories);
+                                    $(`#fat-${recipe.recipe_id}`).text("Total Fat(g): " + totFat);
+                                    $(`#carbs-${recipe.recipe_id}`).text("Total Carbohydrates(g): " + totCarbs);
+                                    $(`#protein-${recipe.recipe_id}`).text("Total Protein(g): " + totProtein);
+                                    $(`#sugar-${recipe.recipe_id}`).text("Total Sugar(g): " + totSugar);
 
                                 });
-
-
-
                         });
-
-
 
                         if (ingredientData.recipe.recipe_id === recipe.recipe_id) {
                             let list = $("<ul>");
                             let listItem = $("<li>");
-
                             listItem.text(ingredient);
                             $(list).append(listItem);
 
                             $(`#ingredient-${recipe.recipe_id}`).append(list);
                             $(`#ingredientListNutri-${recipe.recipe_id}`).append(list);
-
                         }
                     });
                 });
             } //end of if statment
         })
+
 
 
 
@@ -297,13 +307,16 @@ $(document).ready(function () {
             var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
 
 
+
             $.ajax({
                 url: queryURL,
                 method: "GET"
             }).then(function (response) {
 
+
                 makeRecipeCard(response);
             });
+
 
 
 
@@ -316,26 +329,18 @@ $(document).ready(function () {
         });
     }
 
-
-
-
-
-
     $("#submit").on("click", function test() {
         // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
-
         //Makes sure search isn't blank.
         validateSearch();
-
         var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=716be10f3517e512858d539e14920f86&q=" + search;
-
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-
             makeRecipeCard(response);
         });
+
     })
 
 
@@ -346,9 +351,12 @@ $(document).ready(function () {
 
 
 
+
         $(document).ready(function () {
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal-trigger').modal();
         });
     });
+
 });
+
