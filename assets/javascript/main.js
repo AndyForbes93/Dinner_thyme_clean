@@ -15,6 +15,7 @@ $(document).ready(function () {
     var recipeIdArray = [];
     let signInEmail = $("#email_inline").val().trim();
     let signInPassword = $("#password_inline").val().trim();
+    
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
