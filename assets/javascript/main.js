@@ -13,9 +13,6 @@ $(document).ready(function () {
     //add searchbar validation input
     var search;
     var recipeIdArray = [];
-    let signInEmail = $("#email_inline").val().trim();
-    let signInPassword = $("#password_inline").val().trim();
-
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
@@ -23,7 +20,7 @@ $(document).ready(function () {
           $("#userName").text("Currently signed in as " + user.email);
         } else {
           // No user is signed in.
-          $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").show();
+          $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
           $("#userName").hide();
           console.log("No one is signed in");
         }
@@ -47,11 +44,14 @@ $(document).ready(function () {
     var user = firebase.auth().currentUser;
     $("#sign-in-Btn").on("click", function() {
         // handling sign in for users stored in firebase.
+        let signInEmail = $("#email_inline").val().trim();
+        let signInPassword = $("#password_inline").val().trim();
         firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
 
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
+            window.alert("Error : " + errorMessage);
             // ...
         });
         $("#email_inline").val("");
