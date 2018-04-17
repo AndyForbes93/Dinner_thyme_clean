@@ -15,11 +15,11 @@ $(document).ready(function () {
     var recipeIdArray = [];
     let signInEmail = $("#email_inline").val().trim();
     let signInPassword = $("#password_inline").val().trim();
-    
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
-          $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline, #signoutBtn").hide();
+          $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
           $("#userName").text("Currently signed in as " + user.email);
         } else {
           // No user is signed in.
