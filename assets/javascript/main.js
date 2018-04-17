@@ -14,6 +14,8 @@ $(document).ready(function () {
     //add searchbar validation input
     var search;
     var recipeIdArray = [];
+    let signInEmail = $("#email_inline").val().trim();
+    let signInPassword = $("#password_inline").val().trim();
     // Hiding text until invalid search is run.
     $("#invalidSearch").hide();
 
@@ -21,6 +23,7 @@ $(document).ready(function () {
         e.preventDefault();
         let email = $("#email").val().trim();
         let password = $("#password").val().trim();
+        // allows using to create acc through signun btn modal
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
@@ -29,17 +32,28 @@ $(document).ready(function () {
         $("#modal").hide();        
     });
 
-    let signInEmail = $("#email_inline").val().trim();
-    let signInPassword = $("#password_inline").val().trim();
+    var user = firebase.auth().currentUser;
     $("#sign-in-Btn").on("click", function() {
-  
+        
+        // handling sign in for users stored in firebase.
         firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
         });
-        $(signInEmail, signInPassword).val('');
+
+       
+          
+            var name, email, photoUrl, uid, emailVerified;
+
+            if (user != null) {
+              email = user.email;
+              uid = user.uid;  
+              $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").hide();
+              $("#userName").text("Currently signed in as: " + email);
+    
+            }
     });
 
     $("#signoutBtn").on("click", function() {
@@ -73,16 +87,6 @@ $(document).ready(function () {
 
     getCurrentUser();
 
-    const appendCurrentUser = function() {
-        var user = firebase.auth().currentUser;
-        var name, email, photoUrl, uid, emailVerified;
-        if (user != null) {
-          email = user.email;
-          uid = user.uid;  
-        }
-    }
-
-    appendCurrentUser();
 
     const validateSearch = function() {
         if (search === "") {
@@ -107,8 +111,6 @@ $(document).ready(function () {
     
         obj.recipes.forEach(function (recipe, index, arr) {
             if (index <= 4) {
-
-                
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
                 recipeCardColumn.html(`
@@ -170,10 +172,9 @@ $(document).ready(function () {
                     });
             }//end of if statment
         })
+    
 
 
-
-   
 
 
         const appendIngredients = function (newresponse) {
