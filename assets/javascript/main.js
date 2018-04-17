@@ -43,6 +43,7 @@ $(document).ready(function () {
 
     var user = firebase.auth().currentUser;
     $("#sign-in-Btn").on("click", function() {
+
         // handling sign in for users stored in firebase.
         let signInEmail = $("#email_inline").val().trim();
         let signInPassword = $("#password_inline").val().trim();
@@ -56,6 +57,7 @@ $(document).ready(function () {
         });
         $("#email_inline").val("");
         $("#password_inline").val("");
+        location.reload();
     });
 
     $("#signoutBtn").on("click", function() {
