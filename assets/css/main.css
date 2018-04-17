@@ -99,7 +99,10 @@ body {
     margin-right: 10px;
 }
 
-}
+
 .lists{
     font-size: 20px;
+}
+#email_inline{
+    background-color: white;
 }
