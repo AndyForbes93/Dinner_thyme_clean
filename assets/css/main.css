@@ -146,4 +146,9 @@ body {
     height: 30px !important;
 }
 
-
+#userName {
+    color: black;
+    font-size: 18px !important;
+    z-index: 1000;
+    display: inline !important;
+}

@@ -7,7 +7,6 @@ $(document).ready(function () {
         storageBucket: "dinner-thyme-acaba.appspot.com",
         messagingSenderId: "59448784946"
     };
-
     firebase.initializeApp(config);
 
     const database = firebase.database();
@@ -16,13 +15,10 @@ $(document).ready(function () {
     var recipeIdArray = [];
     let signInEmail = $("#email_inline").val().trim();
     let signInPassword = $("#password_inline").val().trim();
-    // Hiding text until invalid search is run.
-    $("#invalidSearch").hide();
-
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
-          $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").hide();
+          $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline, #signoutBtn").hide();
           $("#userName").text("Currently signed in as " + user.email);
         } else {
           // No user is signed in.
