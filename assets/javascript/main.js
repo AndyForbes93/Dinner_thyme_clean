@@ -39,13 +39,13 @@ $(document).ready(function () {
             var errorCode = error.code;
             var errorMessage = error.message;
         });
-
+        $("#email").val("");
+        $("#password").val("");
         $("#modal").hide();        
     });
 
     var user = firebase.auth().currentUser;
     $("#sign-in-Btn").on("click", function() {
-        
         // handling sign in for users stored in firebase.
         firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
 
@@ -54,6 +54,8 @@ $(document).ready(function () {
             var errorMessage = error.message;
             // ...
         });
+        $("#email_inline").val("");
+        $("#password_inline").val("");
     });
 
     $("#signoutBtn").on("click", function() {
