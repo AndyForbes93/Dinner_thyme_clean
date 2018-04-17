@@ -99,6 +99,10 @@ body {
     margin-right: 10px;
 }
 
+
+
+.lists{
+
 #signoutBtn {
     margin-right: 10px;
 }
@@ -127,6 +131,7 @@ body {
 
 
 .formText {
+
     font-size: 20px;
     color: black;
     font-weight: bold;
@@ -151,4 +156,7 @@ body {
     font-size: 18px !important;
     z-index: 1000;
     display: inline !important;
+}
+#email_inline{
+    background-color: white;
 }
