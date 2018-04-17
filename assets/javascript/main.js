@@ -13,19 +13,22 @@ $(document).ready(function () {
     //add searchbar validation input
     var search;
     var recipeIdArray = [];
+
     let signInEmail = $("#email_inline").val().trim();
     let signInPassword = $("#password_inline").val().trim();
 
     firebase.auth().onAuthStateChanged(function (user) {
+
         if (user) {
             // User is signed in.
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
         } else {
-            // No user is signed in.
-            $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").show();
-            $("#userName").hide();
-            console.log("No one is signed in");
+
+          // No user is signed in.
+          $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
+          $("#userName").hide();
+          console.log("No one is signed in");
         }
     });
 
@@ -40,21 +43,27 @@ $(document).ready(function () {
             var errorMessage = error.message;
         });
 
-        $("#modal").hide();
+        $("#email").val("");
+        $("#password").val("");
+        $("#modal").hide();        
     });
 
     var user = firebase.auth().currentUser;
-    $("#sign-in-Btn").on("click", function () {
-
+    $("#sign-in-Btn").on("click", function() {
         // handling sign in for users stored in firebase.
-        firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function (error) {
+        let signInEmail = $("#email_inline").val().trim();
+        let signInPassword = $("#password_inline").val().trim();
+        firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
+
 
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
+            window.alert("Error : " + errorMessage);
             // ...
         });
-
+        $("#email_inline").val("");
+        $("#password_inline").val("");
     });
 
     $("#signoutBtn").on("click", function () {
@@ -104,6 +113,7 @@ $(document).ready(function () {
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
                 recipeCardColumn.html(`<div class="row hoverable">
+
                                             <h2 class="header" id="recipe-name-${recipe.title}">${recipe.title}   
                                             <a class="waves-effect waves-light btn " id="button-${recipe.recipe_id}>"><i class="material-icons">star</i></button></a></h2>
                                             <div class="card horizontal">
@@ -127,16 +137,18 @@ $(document).ready(function () {
                                                             <div class="modal-body">
                                                                 <p>Ingredients Needed:</p>
                                                             </div>
+
                                                         </div>
-                                                        <div class="col s6 m6" id="nutriList-${recipe.recipe_id}">
-                                                            <div class="modal-body">
-                                                                <p>Nutrition Information:</p>
-                                                            </div>
+                                                    </div>
+                                                    <div class="col s6 m6" id="nutriList-${recipe.recipe_id}">
+                                                        <div class="modal-body">
+                                                            <p>Nutrition Information:</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div>`);
+                                        </div>
+                                </div>`);
                 $(recipeCard).append(recipeCardColumn);
                 $(".recipeCardContainer").append(recipeCard);
 
@@ -157,6 +169,7 @@ $(document).ready(function () {
 
 
                     ingredientsArr.forEach(function (ingredient) {
+
 
                         ingredientsArr.forEach(function (ingredient) {
                             let splitStr = ingredient.split(" ").join("%20");
@@ -239,6 +252,7 @@ $(document).ready(function () {
 
                         });
 
+
                         if (ingredientData.recipe.recipe_id === recipe.recipe_id) {
 
                             let list = $("<ul>");
@@ -290,6 +304,7 @@ $(document).ready(function () {
             }
         });
     }
+
 
 
 
