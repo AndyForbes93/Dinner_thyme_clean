@@ -7,88 +7,79 @@ $(document).ready(function () {
         storageBucket: "dinner-thyme-acaba.appspot.com",
         messagingSenderId: "59448784946"
     };
-
     firebase.initializeApp(config);
 
     const database = firebase.database();
     //add searchbar validation input
     var search;
     var recipeIdArray = [];
-    // Hiding text until invalid search is run.
-    $("#invalidSearch").hide();
+    let signInEmail = $("#email_inline").val().trim();
+    let signInPassword = $("#password_inline").val().trim();
 
-    $("#createAcc").on("click", function (e) {
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
+          $("#userName").text("Currently signed in as " + user.email);
+        } else {
+          // No user is signed in.
+          $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").show();
+          $("#userName").hide();
+          console.log("No one is signed in");
+        }
+    });
+
+    $("#createAcc").on("click", function(e) {
         e.preventDefault();
-        let email = $("#email").val();
-        let password = $("#password").val();
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+        let email = $("#email").val().trim();
+        let password = $("#password").val().trim();
+        // allows using to create acc through signun btn modal
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
         });
-        $("#modal").hide();
+
+        $("#modal").hide();        
     });
 
-    let signInEmail = $("#email_inline").val();
-    let signInPassword = $("#password_inline").val();
-    $("#sign-in-Btn").on("click", function () {
+    var user = firebase.auth().currentUser;
+    $("#sign-in-Btn").on("click", function() {
+        
+        // handling sign in for users stored in firebase.
+        firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
 
-        firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
         });
-        $(signInEmail, signInPassword).val('');
+
     });
 
-    $("#signoutBtn").on("click", function () {
-        firebase.auth().signOut().then(function (user) {
+    $("#signoutBtn").on("click", function() {
+        firebase.auth().signOut().then(function(user) {
             // Sign-out successful.
             console.log(user.email + "Has signed out.");
-        }).catch(function (error) {
+          }).catch(function(error) {
             // An error happened.
-        });
+          });
     });
 
-    $("#signupBtn").on("click", function () {
+    $("#signupBtn").on("click", function() {
         $("#modal").show();
     });
 
-    $("#closeModal").on("click", function () {
+    $("#closeModal").on("click", function() {
         $("#modal").hide();
     });
-
-    const getCurrentUser = function () {
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                // User is signed in.
-                console.log(user);
-            } else {
-                // No user is signed in.
-                console.log("No one is signed in");
-            }
-        });
-    }
-
-    getCurrentUser();
-
-    const appendCurrentUser = function () {
-        var user = firebase.auth().currentUser;
-        var name, email, photoUrl, uid, emailVerified;
-        if (user != null) {
-            email = user.email;
-            uid = user.uid;
-        }
-    }
-
-    appendCurrentUser();
-
-    const validateSearch = function () {
+    
+    const validateSearch = function() {
         if (search === "") {
             $("#searchLabel").hide()
             $("#invalidSearch").show();
-            setTimeout(function () {
+            setTimeout(function() {
+
 
                 $("#searchLabel").show();
                 $("#invalidSearch").hide();
@@ -104,6 +95,7 @@ $(document).ready(function () {
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
+
         obj.recipes.forEach(function (recipe, index, arr) {
             if (index <= 4) {
 
@@ -217,7 +209,25 @@ $(document).ready(function () {
 
 
 
+    $("#submit").on("click", function test() {
+        // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
 
+        //Makes sure search isn't blank.
+        validateSearch();
+
+        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
+
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
+            makeRecipeCard(response);
+        });
+
+
+    
 
 
         const appendIngredients = function (newresponse) {
@@ -282,3 +292,4 @@ $(document).ready(function () {
         });
     });
 })
+
