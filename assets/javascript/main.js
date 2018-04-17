@@ -8,79 +8,65 @@ $(document).ready(function () {
         messagingSenderId: "59448784946"
     };
     firebase.initializeApp(config);
-
     const database = firebase.database();
     //add searchbar validation input
     var search;
     var recipeIdArray = [];
     let signInEmail = $("#email_inline").val().trim();
     let signInPassword = $("#password_inline").val().trim();
-
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          // User is signed in.
-          $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
-          $("#userName").text("Currently signed in as " + user.email);
+            // User is signed in.
+            $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
+            $("#userName").text("Currently signed in as " + user.email);
         } else {
-          // No user is signed in.
-          $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").show();
-          $("#userName").hide();
-          console.log("No one is signed in");
+            // No user is signed in.
+            $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").show();
+            $("#userName").hide();
+            console.log("No one is signed in");
         }
     });
-
-    $("#createAcc").on("click", function(e) {
+    $("#createAcc").on("click", function (e) {
         e.preventDefault();
         let email = $("#email").val().trim();
         let password = $("#password").val().trim();
         // allows using to create acc through signun btn modal
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
         });
-
-        $("#modal").hide();        
+        $("#modal").hide();
     });
-
     var user = firebase.auth().currentUser;
-    $("#sign-in-Btn").on("click", function() {
-        
+    $("#sign-in-Btn").on("click", function () {
         // handling sign in for users stored in firebase.
-        firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
-
+        firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
         });
-
     });
-
-    $("#signoutBtn").on("click", function() {
-        firebase.auth().signOut().then(function(user) {
+    $("#signoutBtn").on("click", function () {
+        firebase.auth().signOut().then(function (user) {
             // Sign-out successful.
             console.log(user.email + "Has signed out.");
-          }).catch(function(error) {
+        }).catch(function (error) {
             // An error happened.
-          });
+        });
     });
-
-    $("#signupBtn").on("click", function() {
+    $("#signupBtn").on("click", function () {
         $("#modal").show();
     });
-
-    $("#closeModal").on("click", function() {
+    $("#closeModal").on("click", function () {
         $("#modal").hide();
     });
-    
-    const validateSearch = function() {
+    const validateSearch = function () {
         if (search === "") {
             $("#searchLabel").hide()
             $("#invalidSearch").show();
-            setTimeout(function() {
-
-
+            setTimeout(function () {
                 $("#searchLabel").show();
                 $("#invalidSearch").hide();
             }, 1000)
@@ -90,17 +76,11 @@ $(document).ready(function () {
             $(".recipeCardContainer").html("");
         }
     }
-
-
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
-
         obj.recipes.forEach(function (recipe, index, arr) {
             if (index <= 4) {
-
-
-
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
                 recipeCardColumn.html(`<div class="row hoverable">
@@ -138,7 +118,6 @@ $(document).ready(function () {
                                     </div>`);
                 $(recipeCard).append(recipeCardColumn);
                 $(".recipeCardContainer").append(recipeCard);
-
                 var url = `https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=716be10f3517e512858d539e14920f86&rId=${recipe.recipe_id}`;
                 $.ajax({
                     url: url,
@@ -147,27 +126,16 @@ $(document).ready(function () {
                         xhr.setRequestHeader("X-Mashape-Key", "17STlxvDu0mshiHdSIFa7pNut86Vp1EqzzvjsngIg9bGERUjDu");
                     },
                 }).then(function (ingredientData) {
-
                     ingredientData = JSON.parse(ingredientData);
-
                     let ingredientsArr = ingredientData.recipe.ingredients;
-
                     let ingredientListArr = Array.from(document.querySelectorAll('.ingredientList'));
-
                     console.log(ingredientListArr);
-
                     ingredientsArr.forEach(function (ingredient) {
-
-
-                    //     let ingredientString = ingredient;
-                    //     let ingredientStringSplit = ingredientString.split("%");
-                    //    // let ingredientSearch = ingredientStringSplit.replace(" ", "%").trim();
-                        
-                    //     console.log(ingredientStringsplit);
-
-                    //     let resultArr = [];
-
-
+                        //     let ingredientString = ingredient;
+                        //     let ingredientStringSplit = ingredientString.split("%");
+                        //    // let ingredientSearch = ingredientStringSplit.replace(" ", "%").trim();
+                        //     console.log(ingredientStringsplit);
+                        //     let resultArr = [];
                         // var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + ingredient + "?&appId=510b0c3b&appKey=b148a8cfc03753efc27ea05a30bfd6e9&fields=item_name,nf_calories";
                         // $.ajax({
                         //     url: nutritionURL,
@@ -183,113 +151,77 @@ $(document).ready(function () {
                         //         }
                         //     }
                         // });
-
-
-
-
-
                         if (ingredientData.recipe.recipe_id === recipe.recipe_id) {
-
                             let list = $("<ul>");
                             let listItem = $("<li>");
-
                             listItem.text(ingredient);
                             $(list).append(listItem);
                             $(`#ingredient-${recipe.recipe_id}`).append(list);
                             $(`#ingredientListNutri-${recipe.recipe_id}`).append(list);
-
                         }
-
-
                     });
-
                 });
             } //end of if statment
         })
-
-
-
-    $("#submit").on("click", function test() {
-        // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
-
-        //Makes sure search isn't blank.
-        validateSearch();
-
-        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
-
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-
-            makeRecipeCard(response);
+        $("#submit").on("click", function test() {
+            // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
+            //Makes sure search isn't blank.
+            validateSearch();
+            var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                makeRecipeCard(response);
+            });
+            const appendIngredients = function (newresponse) {
+                var obj = jQuery.parseJSON(newresponse);
+                let ingredientArr = obj.recipe.ingredients;
+                // for (j = 0; j < 5; j++) {
+                //     ingredientArr.forEach(element => {
+                //     }); {
+                //         let list = $("<ul>");
+                //         let listItem = $("<li>");
+                //         $(list).append(listItem);
+                //         listItem.text(ingredientArr[i]);
+                //         $("#ingredientList-" + j).append(list);
+                //     }
+                //     var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + ingredientArr[i] + "?&appId=f35ae0d0&appKey=b148a8cfc03753efc27ea05a30bfd6e9&fields=item_name,nf_calories";
+                //     //var queryURL = "http://cors-proxy.htmldriven.com/?url=https://api.nutritionix.com/v1_1/search/taco?&appId=f35ae0d0&appKey=80cac78d0905b2d36ca8825470f578d7";
+                //     let totalCalories = 0;
+                //     let resultArr = [];
+                //     $.ajax({
+                //         url: nutritionURL,
+                //         method: "GET"
+                //     }).then(function (response) {
+                //         for (var i = 0; i < response.hits.length; i++) {
+                //             if (response.hits[i].fields.nf_calories) {
+                //                 resultArr.push(response.hits[i].fields.nf_calories);
+                //             } else {
+                //                 console.log(response.hits[i].fields.item_name);
+                //             }
+                //         }
+                //     });
+                // }
+            }
         });
-
-
-    
-
-
-        const appendIngredients = function (newresponse) {
-            var obj = jQuery.parseJSON(newresponse);
-            let ingredientArr = obj.recipe.ingredients;
-            // for (j = 0; j < 5; j++) {
-            //     ingredientArr.forEach(element => {
-
-            //     }); {
-            //         let list = $("<ul>");
-            //         let listItem = $("<li>");
-            //         $(list).append(listItem);
-            //         listItem.text(ingredientArr[i]);
-            //         $("#ingredientList-" + j).append(list);
-            //     }
-
-            //     var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + ingredientArr[i] + "?&appId=f35ae0d0&appKey=b148a8cfc03753efc27ea05a30bfd6e9&fields=item_name,nf_calories";
-            //     //var queryURL = "http://cors-proxy.htmldriven.com/?url=https://api.nutritionix.com/v1_1/search/taco?&appId=f35ae0d0&appKey=80cac78d0905b2d36ca8825470f578d7";
-
-            //     let totalCalories = 0;
-            //     let resultArr = [];
-            //     $.ajax({
-            //         url: nutritionURL,
-            //         method: "GET"
-            //     }).then(function (response) {
-
-            //         for (var i = 0; i < response.hits.length; i++) {
-            //             if (response.hits[i].fields.nf_calories) {
-            //                 resultArr.push(response.hits[i].fields.nf_calories);
-            //             } else {
-            //                 console.log(response.hits[i].fields.item_name);
-            //             }
-            //         }
-            //     });
-            // }
-        }
     }
-
-
-
-    $("#submit").on("click", function test() {
-        // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
-
-        //Makes sure search isn't blank.
-        validateSearch();
-
-        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=716be10f3517e512858d539e14920f86&q=" + search;
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-
-            makeRecipeCard(response);
+        $("#submit").on("click", function test() {
+            // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
+            //Makes sure search isn't blank.
+            validateSearch();
+            var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=716be10f3517e512858d539e14920f86&q=" + search;
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                makeRecipeCard(response);
+            });
+            $(document).ready(function () {
+                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                $('.modal-trigger').modal();
+            });
         });
+    })
 
-
-
-        $(document).ready(function () {
-            // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-            $('.modal-trigger').modal();
-        });
-    });
-})
 
