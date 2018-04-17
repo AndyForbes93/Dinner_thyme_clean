@@ -122,7 +122,7 @@ $(document).ready(function () {
                                                         <i class="material-icons right">close</i>
                                                     </span>
                                                     <div class="row tw-line">
-                                                        <div class="col s6 m6" id="ingredientListNutri-${recipe.recipe_id}">
+                                                        <div class="col s6 m6 lists" id="ingredientListNutri-${recipe.recipe_id}">
                                                             <div class="modal-body">
                                                                 <p>Ingredients Needed:</p>
                                                             </div>
@@ -154,9 +154,11 @@ $(document).ready(function () {
 
                     let ingredientListArr = Array.from(document.querySelectorAll('.ingredientList'));
 
-                    console.log(ingredientListArr);
 
                     ingredientsArr.forEach(function (ingredient) {
+
+                        console.log(ingredient + ingredientData.recipe.recipe_id );
+
 
 
                     //     let ingredientString = ingredient;
@@ -264,6 +266,7 @@ $(document).ready(function () {
             //     });
             // }
         }
+    });
     }
 
 
@@ -291,5 +294,6 @@ $(document).ready(function () {
             $('.modal-trigger').modal();
         });
     });
-})
+});
+
 
