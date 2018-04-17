@@ -87,6 +87,28 @@ $(document).ready(function () {
         $("#modal").hide();
     });
 
+
+    //globals
+    //console.log(splitStr);
+    var calories = 0.0;
+    var totCalories = 0.0;
+    var fat = 0.0;
+    var totFat = 0.0;
+    var cholesterol = 0.0;
+    var totCholesterol = 0.0;
+    var carbs = 0.0;
+    var totCarbs = 0.0;
+    var fiber = 0.0;
+    var totFiber = 0.0;
+    var sugar = 0.0;
+    var totSugar = 0.0;
+    var protein = 0.0;
+    var totProtein = 0.0;
+    var iron = 0.0;
+    var totIron = 0.0;
+    var sodium = 0.0;
+    var totSodium = 0.0;
+
     const validateSearch = function () {
         if (search === "") {
             $("#searchLabel").hide()
@@ -169,9 +191,7 @@ $(document).ready(function () {
                         ingredientsArr.forEach(function (ingredient) {
                             let splitStr = ingredient.split(" ").join("%20");
 
-                            //console.log(splitStr);
-                            let calories = 0;
-                            let totCalories = 0;
+
 
                             var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + splitStr + "?&appId=e12be5ac&appKey=817ebbcc808058aa40405dd1e3c1d7e3&fields=item_name,nf_calories,nf_total_fat,nf_cholesterol,nf_total_carbohydrate,nf_dietary_fiber,nf_sugars,nf_protein,nf_potassium,nf_iron_dv,nf_sodium";
                             $.ajax({
@@ -230,21 +250,23 @@ $(document).ready(function () {
                                     console.log("Total Iron(%dv):" + totIron);
                                     console.log("Total Sodium(mg):" + totSodium);
 
+                                    if (index == ingredientsArr) {
+                                        $(`#nutiList-${recipe.recipe_id}`).append("Total Calories(kcal): " + totCalories);
+                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Fat(g): " + totFat);
+                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Carbohydrates(g): " + totCarbs);
+                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Protein(g): " + totProtein);
+                                        $(`#nutriList-${recipe.recipe_id}`).append("Total Sugar(g): " + totSugar);
+                                    }
 
-                                    let list2 = $("<ul>");
-                                    let listItem2 = $("<li>");
 
-                                    //  need to define calories for each item in the AJAX call
-                                    listItem2.text(totCalories + "calories");
-                                    $(list2).append(listItem2);
 
-                                    //!!this is where you will append the nutrition list!!
-                                    $(`#nutriList-${recipe.recipe_id}`).append(list2);
 
                                 });
 
 
+
                         });
+
 
 
                         if (ingredientData.recipe.recipe_id === recipe.recipe_id) {
@@ -256,6 +278,7 @@ $(document).ready(function () {
 
                             $(`#ingredient-${recipe.recipe_id}`).append(list);
                             $(`#ingredientListNutri-${recipe.recipe_id}`).append(list);
+
                         }
                     });
                 });
