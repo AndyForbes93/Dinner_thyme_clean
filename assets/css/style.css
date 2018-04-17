@@ -1,0 +1,69 @@
+/*------------------------------------------- BEGINNING TREY'S CSS ------------------------------------------*/
+.tw-food-pic {
+    width: 100px;
+    height: 100px;
+    /* if container class 
+    max-width: 120px;
+    max-height: 80px; */
+    border-radius: 30px 30px 30px 30px; 
+}
+.tw-each-card {
+    border: 30px solid white;   
+    border-radius: 45px 100px 45px; 
+    color: white;
+    background: white;
+    float: left;
+}
+.tw-card-top {
+    background: rgba(150, 179, 133, 0.548);
+    border-radius: 15px 70px 0px; 
+}
+.modal-colour {
+    background: rgb(89, 117, 76);
+}
+.tw-p-card {
+    /* font-family: 'Playfair Display', serif; */
+    /* font-family: 'Gamja Flower', cursive; */
+    font-family: 'Gaegu', cursive;
+    font-size: 100%;
+}
+.tw-h3-card {
+    text-align: right;
+    border-radius: 3px;
+    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Black Han Sans', sans-serif; */
+    /* if container class 
+    font-size: 140%; */
+    font-size: 200%;
+    padding: 30px 15px 0 0;
+}
+.tw-new-colour{
+    background: rgb(13, 150, 13);
+}
+.tw-card-bottom {
+    font-family: 'Poppins', sans-serif;
+    font-size: 200%;
+}
+.tw-line {
+    border-bottom: 2px solid  rgba(150, 179, 133, 0.548);
+}
+.tw-line-2 {
+    border-top: 2px solid  rgba(150, 179, 133, 0.548);
+}
+.tw-ul{
+    border-top: 2px solid  rgba(150, 179, 133, 0.548);
+}
+.tw-modal-pic {
+    height: 80%;
+    width: 80%;
+    border-radius: 30px 30px 30px 30px; 
+}
+.tw-padding {
+    padding: 10px;
+}
+.jumtronimg {
+    margin-top: 40px;
+    height: 450px;
+    width: 1000px;
+}
+/*------------------------------------------- END TREY'S CSS ------------------------------------------------*/
