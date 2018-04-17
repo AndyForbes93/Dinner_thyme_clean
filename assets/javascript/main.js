@@ -165,43 +165,43 @@ $(document).ready(function () {
                             let calories = 0;
                             let totCalories = 0;
 
-                            var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + splitStr + "?&appId=e12be5ac&appKey=817ebbcc808058aa40405dd1e3c1d7e3&fields=item_name,nf_calories";
+                            var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + splitStr + "?&appId=e12be5ac&appKey=817ebbcc808058aa40405dd1e3c1d7e3&fields=item_name,nf_calories,nf_total_fat,nf_cholesterol,nf_total_carbohydrate,nf_dietary_fiber,nf_sugars,nf_protein,nf_potassium,nf_iron_dv,nf_sodium";
                             $.ajax({
                                     url: nutritionURL,
                                     method: "GET",
                                     success: function (response) {
-                                        
+
                                         calories = response.hits[0].fields.nf_calories;
 
 
 
                                         totCalories = Math.floor(calories + totCalories);
-                                      //  console.log("Total Calories(kcal):" + totCalories);
+                                        //  console.log("Total Calories(kcal):" + totCalories);
 
                                         fat = response.hits[0].fields.nf_total_fat;
                                         totFat = Math.floor(fat + totFat);
-                                       // console.log("Total Fat(g):" + totFat);
+                                        // console.log("Total Fat(g):" + totFat);
                                         cholesterol = response.hits[0].fields.nf_cholesterol;
                                         totCholesterol = Math.floor(cholesterol + totCholesterol);
-                                       // console.log("Total Cholesterol(mg):" + totCholesterol);
+                                        // console.log("Total Cholesterol(mg):" + totCholesterol);
                                         carbs = response.hits[0].fields.nf_total_carbohydrate;
                                         totCarbs = Math.floor(carbs + totCarbs);
-                                       // console.log("Total Carbohydrates(g):" + totCarbs);
+                                        // console.log("Total Carbohydrates(g):" + totCarbs);
                                         fiber = response.hits[0].fields.nf_dietary_fiber;
                                         totFiber = Math.floor(fiber + totFiber);
-                                       //  console.log("Total Fiber(g):" + totFiber);
+                                        //  console.log("Total Fiber(g):" + totFiber);
                                         sugar = response.hits[0].fields.nf_sugars;
                                         totSugar = Math.floor(sugar + totSugar);
-                                      //  console.log("Total Sugar(g):" + totSugar);
+                                        //  console.log("Total Sugar(g):" + totSugar);
                                         protein = response.hits[0].fields.nf_protein;
-                                         totProtein = Math.floor(protein + totProtein);
-                                       //  console.log("Total Protein(g):" + totProtein);
-                                         iron = response.hits[0].fields.nf_iron_dv;
+                                        totProtein = Math.floor(protein + totProtein);
+                                        //  console.log("Total Protein(g):" + totProtein);
+                                        iron = response.hits[0].fields.nf_iron_dv;
                                         totIron = Math.floor(iron + totIron);
-                                      //  console.log("Total Iron(%dv):" + totIron);
+                                        //  console.log("Total Iron(%dv):" + totIron);
                                         sodium = response.hits[0].fields.nf_sodium;
                                         totSodium = Math.floor(sodium + totSodium);
-                                      //  console.log("Total Sodium(mg):" + totSodium);
+                                        //  console.log("Total Sodium(mg):" + totSodium);
 
                                     },
                                     error: function (xhr, ajaxOptions, thrownError) {
@@ -220,19 +220,18 @@ $(document).ready(function () {
                                     console.log("Total Sugar(g):" + totSugar);
                                     console.log("Total Protein(g):" + totProtein);
                                     console.log("Total Iron(%dv):" + totIron);
-                                    console.log("Total Sodium(mg):" + totSodium);  
+                                    console.log("Total Sodium(mg):" + totSodium);
 
 
-                                            let calories = response.total_hits.hits[0].fields.nf_calories;
-                                            let list2 = $("<ul>");
-                                            let listItem2 = $("<li>");
+                                    let list2 = $("<ul>");
+                                    let listItem2 = $("<li>");
 
-                                            //  need to define calories for each item in the AJAX call
-                                            listItem2.text(calories + "calories");
-                                            $(list2).append(listItem2);
+                                    //  need to define calories for each item in the AJAX call
+                                    listItem2.text(totCalories + "calories");
+                                    $(list2).append(listItem2);
 
-                                            //!!this is where you will append the nutrition list!!
-                                            $(`#nutriList-${recipe.recipe_id}`).append(list2);
+                                    //!!this is where you will append the nutrition list!!
+                                    $(`#nutriList-${recipe.recipe_id}`).append(list2);
 
                                 });
 
