@@ -99,14 +99,6 @@ body {
     margin-right: 10px;
 }
 
-
-
-.lists{
-
-#signoutBtn {
-    margin-right: 10px;
-}
-
 #modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
