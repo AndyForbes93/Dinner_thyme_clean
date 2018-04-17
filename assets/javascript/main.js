@@ -19,6 +19,19 @@ $(document).ready(function () {
     // Hiding text until invalid search is run.
     $("#invalidSearch").hide();
 
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").hide();
+          $("#userName").text("Currently signed in as " + user.email);
+        } else {
+          // No user is signed in.
+          $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").show();
+          $("#userName").hide();
+          console.log("No one is signed in");
+        }
+    });
+
     $("#createAcc").on("click", function(e) {
         e.preventDefault();
         let email = $("#email").val().trim();
@@ -42,18 +55,6 @@ $(document).ready(function () {
             var errorMessage = error.message;
             // ...
         });
-
-       
-          
-            var name, email, photoUrl, uid, emailVerified;
-
-            if (user != null) {
-              email = user.email;
-              uid = user.uid;  
-              $(signInEmail, signInPassword, "#signupBtn", "#sign-in-Btn").hide();
-              $("#userName").text("Currently signed in as: " + email);
-    
-            }
     });
 
     $("#signoutBtn").on("click", function() {
@@ -73,21 +74,6 @@ $(document).ready(function () {
         $("#modal").hide();
     });
     
-    const getCurrentUser = function() {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              // User is signed in.
-              console.log(user);
-            } else {
-              // No user is signed in.
-              console.log("No one is signed in");
-            }
-          });
-    }
-
-    getCurrentUser();
-
-
     const validateSearch = function() {
         if (search === "") {
             $("#searchLabel").hide()
