@@ -28,7 +28,7 @@ $(document).ready(function () {
             $("#container").hide();
             let h1 = $("<h1>");
             h1.text(user.email);
-            $("body").append(h1);
+            $("body").html(h1);
             
         });
     
