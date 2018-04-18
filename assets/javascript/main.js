@@ -49,10 +49,14 @@ $(document).ready(function () {
         $("#modal").hide();
     });
     var user = firebase.auth().currentUser;
-
-    $("#viewProfile").on("click", function() {
-        $("body").hide();
-    });
+    console.log(user);
+    const profileInfo = function() {
+        $("#viewProfile").on("click", function() {
+            $("#container").hide();
+            let h1 = $("<h1>");
+            h1.html()
+        });
+    }
 
     $("#sign-in-Btn").on("click", function () {
         // handling sign in for users stored in firebase.
@@ -314,10 +318,6 @@ $(document).ready(function () {
         });
 
     })
-
-    $(".favorite").on("click", function () {
-        console.log("saved to favorites");
-    });
 
     $(document).ready(function () {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
