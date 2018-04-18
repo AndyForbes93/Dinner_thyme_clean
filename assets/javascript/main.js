@@ -22,7 +22,9 @@ $(document).ready(function () {
             // User is signed in.
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
-            $("#viewProfile").show()
+            $("#viewProfile").show();
+
+            profileInfo(user);
         } else {
             // No user is signed in.
             $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
@@ -48,14 +50,16 @@ $(document).ready(function () {
         $("#email, #password").val("");
         $("#modal").hide();
     });
-    
+
     var user = firebase.auth().currentUser;
     console.log(user);
 
-    const profileInfo = function() {
+    const profileInfo = function(user) {
         $("#viewProfile").on("click", function() {
             $("#container").hide();
             let h1 = $("<h1>");
+            h1.text(user.email);
+            $("body").append(h1);
         });
     }
 
