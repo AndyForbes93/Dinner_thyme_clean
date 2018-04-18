@@ -30,6 +30,7 @@ $(document).ready(function () {
             let h1 = $("<h1>");
             h1.text(user.email);
             $("body").append(h1);
+            
         });
     
         } else {
@@ -59,9 +60,6 @@ $(document).ready(function () {
     });
 
     var user = firebase.auth().currentUser;
-
-
-
 
     $("#sign-in-Btn").on("click", function () {
         // handling sign in for users stored in firebase.
