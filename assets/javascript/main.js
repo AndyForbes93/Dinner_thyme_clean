@@ -44,16 +44,16 @@ $(document).ready(function () {
         $("#modal").hide();
         $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
         $("#profileArea").append("<button id='viewProfile'>View Profile</button>");
-        
-        $("#viewProfile").on("click", function() {
-            $("body").hide();
-        });
 
         $("#email").val("");
         $("#password").val("");
         $("#modal").hide();
     });
     var user = firebase.auth().currentUser;
+
+    $(document).on("click", "#viewProfile", function() {
+        $("body").hide();
+    });
 
     $("#sign-in-Btn").on("click", function () {
         // handling sign in for users stored in firebase.
