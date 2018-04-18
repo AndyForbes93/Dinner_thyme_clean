@@ -42,13 +42,17 @@ $(document).ready(function () {
         });
         $("#modal").hide();
         $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
-        $("#profileArea").html("<button id='signoutBtn'>View Profile</button>");
+        $("#profileArea").html("<button id='viewProfile'>View Profile</button>");
 
         $("#email").val("");
         $("#password").val("");
         $("#modal").hide();
     });
     var user = firebase.auth().currentUser;
+
+    $("#viewProfile").on("click", function() {
+        $("body").hide();
+    });
 
     $("#sign-in-Btn").on("click", function () {
         // handling sign in for users stored in firebase.
@@ -65,7 +69,6 @@ $(document).ready(function () {
 
         $("#email_inline").val("");
         $("#password_inline").val("");
-        location.reload();
     });
 
     $("#signoutBtn").on("click", function () {
