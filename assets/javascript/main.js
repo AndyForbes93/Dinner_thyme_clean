@@ -22,12 +22,13 @@ $(document).ready(function () {
             // User is signed in.
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
-            $("#profileArea").append("<button id='viewProfile'>View Profile</button>");
+            $("#viewProfile").hide();
         } else {
             // No user is signed in.
             $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
             $("#userName").hide();
             console.log("No one is signed in");
+            $("#viewProfile").show();
         }
     });
 
@@ -43,15 +44,13 @@ $(document).ready(function () {
         });
         $("#modal").hide();
         $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
-        $("#profileArea").append("<button id='viewProfile'>View Profile</button>");
-
-        $("#email").val("");
-        $("#password").val("");
+        $("#viewProfile").show();
+        $("#email, #password").val("");
         $("#modal").hide();
     });
     var user = firebase.auth().currentUser;
 
-    $(document).on("click", "#viewProfile", function() {
+    $("#viewProfile").on("click", function() {
         $("body").hide();
     });
 
