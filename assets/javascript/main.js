@@ -52,7 +52,7 @@ $(document).ready(function () {
     });
 
     var user = firebase.auth().currentUser;
-    console.log(user);
+
 
     const profileInfo = function(user) {
         $("#viewProfile").on("click", function() {
