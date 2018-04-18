@@ -22,6 +22,8 @@ $(document).ready(function () {
             // User is signed in.
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
+            let curUser = user.email;
+            
         } else {
           // No user is signed in.
           $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
@@ -43,7 +45,6 @@ $(document).ready(function () {
         });
         $("#modal").hide();
         $("#profileArea").html("<a class='waves-effect waves-light btn right-align' id='signoutBtn'>View Profile</a>");
-
         $("#email").val("");
         $("#password").val("");
         $("#modal").hide();        
