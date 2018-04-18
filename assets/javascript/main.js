@@ -16,18 +16,12 @@ $(document).ready(function () {
     let signInEmail = $("#email_inline").val().trim();
     let signInPassword = $("#password_inline").val().trim();
 
-
-
     firebase.auth().onAuthStateChanged(function (user) {
-
         if (user) {
             // User is signed in.
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
         } else {
-
-
-
           // No user is signed in.
           $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
           $("#userName").hide();
@@ -61,8 +55,6 @@ $(document).ready(function () {
         let signInPassword = $("#password_inline").val().trim();
         firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword).catch(function(error) {
 
-
-
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -73,6 +65,7 @@ $(document).ready(function () {
 
         $("#email_inline").val("");
         $("#password_inline").val("");
+        location.reload();
     });
 
 
@@ -133,6 +126,7 @@ $(document).ready(function () {
             $(".recipeCardContainer").html("");
         }
     }
+
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
@@ -213,7 +207,7 @@ $(document).ready(function () {
 
 
 
-                            var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + splitStr + "?&appId=e12be5ac&appKey=817ebbcc808058aa40405dd1e3c1d7e3&fields=item_name,nf_calories,nf_total_fat,nf_cholesterol,nf_total_carbohydrate,nf_dietary_fiber,nf_sugars,nf_protein,nf_potassium,nf_iron_dv,nf_sodium";
+                            var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + splitStr + "?&appId=59c5899e&appKey=bbfaaa8dd350fbb95b6265798d4069e7&fields=item_name,nf_calories,nf_total_fat,nf_cholesterol,nf_total_carbohydrate,nf_dietary_fiber,nf_sugars,nf_protein,nf_potassium,nf_iron_dv,nf_sodium";
                             $.ajax({
                                     url: nutritionURL,
                                     method: "GET",
@@ -294,10 +288,6 @@ $(document).ready(function () {
             } //end of if statment
         })
 
-
-
-
-
         $("#submit").on("click", function test() {
             // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
 
@@ -316,11 +306,6 @@ $(document).ready(function () {
 
                 makeRecipeCard(response);
             });
-
-
-
-
-
 
             const appendIngredients = function (newresponse) {
                 var obj = jQuery.parseJSON(newresponse);
@@ -348,9 +333,6 @@ $(document).ready(function () {
         $(".favorite").on("click", function () {
             console.log("saved to favorites");
         });
-
-
-
 
         $(document).ready(function () {
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
