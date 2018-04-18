@@ -54,7 +54,6 @@ $(document).ready(function () {
         $("#viewProfile").on("click", function() {
             $("#container").hide();
             let h1 = $("<h1>");
-            h1.html()
         });
     }
 
