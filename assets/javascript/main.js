@@ -10,7 +10,8 @@ $(document).ready(function () {
 
     firebase.initializeApp(config);
     const database = firebase.database();
-
+    //add searchbar validation input
+    var search;
     var recipeIdArray = [];
 
     let signInEmail = $("#email_inline").val().trim();
@@ -21,23 +22,11 @@ $(document).ready(function () {
             // User is signed in.
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
-            $("#viewProfile").show();
-
-           
-        $("#viewProfile").on("click", function() {
-            $("#container").hide();
-            let h1 = $("<h1>");
-            h1.text(user.email);
-            $("body").html(h1);
-            
-        });
-    
         } else {
             // No user is signed in.
             $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
             $("#userName").hide();
             console.log("No one is signed in");
-            $("#viewProfile").hide();
         }
     });
 
@@ -52,12 +41,12 @@ $(document).ready(function () {
             var errorMessage = error.message;
         });
         $("#modal").hide();
-        $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
-        $("#viewProfile").show();
-        $("#email, #password").val("");
+        $("#profileArea").html("<a class='waves-effect waves-light btn right-align' id='signoutBtn'>View Profile</a>");
+
+        $("#email").val("");
+        $("#password").val("");
         $("#modal").hide();
     });
-
     var user = firebase.auth().currentUser;
 
     $("#sign-in-Btn").on("click", function () {
@@ -75,6 +64,7 @@ $(document).ready(function () {
 
         $("#email_inline").val("");
         $("#password_inline").val("");
+        location.reload();
     });
 
     $("#signoutBtn").on("click", function () {
@@ -96,12 +86,28 @@ $(document).ready(function () {
         $("#modal").hide();
     });
 
+    const validateSearch = function () {
+        if (search === "") {
+            $("#searchLabel").hide()
+            $("#invalidSearch").show();
+            setTimeout(function () {
+
+                $("#searchLabel").show();
+                $("#invalidSearch").hide();
+            }, 1000)
+        } else {
+            search = $("#ingredient-input").val();
+            $(".container").removeClass("hide");
+            $(".recipeCardContainer").html("");
+        }
+    }
+
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
         var obj = jQuery.parseJSON(response);
         obj.recipes.forEach(function (recipe, index, arr) {
 
-            if (index <= 1) {
+            if (index <= 0) {
 
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
@@ -234,16 +240,16 @@ $(document).ready(function () {
                                 }
                             })
                             .then(function () {
-                                console.log(calories);
-                                console.log("Total Calories(kcal):" + totCalories);
-                                console.log("Total Fat(g):" + totFat);
-                                console.log("Total Cholesterol(mg):" + totCholesterol);
-                                console.log("Total Carbohydrates(g):" + totCarbs);
-                                console.log("Total Fiber(g):" + totFiber);
-                                console.log("Total Sugar(g):" + totSugar);
-                                console.log("Total Protein(g):" + totProtein);
-                                console.log("Total Iron(%dv):" + totIron);
-                                console.log("Total Sodium(mg):" + totSodium);
+                                // console.log(calories);
+                                // console.log("Total Calories(kcal):" + totCalories);
+                                // console.log("Total Fat(g):" + totFat);
+                                // console.log("Total Cholesterol(mg):" + totCholesterol);
+                                // console.log("Total Carbohydrates(g):" + totCarbs);
+                                // console.log("Total Fiber(g):" + totFiber);
+                                // console.log("Total Sugar(g):" + totSugar);
+                                // console.log("Total Protein(g):" + totProtein);
+                                // console.log("Total Iron(%dv):" + totIron);
+                                // console.log("Total Sodium(mg):" + totSodium);
 
                                 $(`#calorie-${recipe.recipe_id}`).text("Total Calories: " + totCalories + " (kcal)");
                                 $(`#fat-${recipe.recipe_id}`).text("Total Fat(g): " + totFat);
@@ -270,6 +276,9 @@ $(document).ready(function () {
         $("#submit").on("click", function test() {
             // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
 
+            //Makes sure search isn't blank.
+            validateSearch();
+
             var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
 
             $.ajax({
@@ -291,6 +300,7 @@ $(document).ready(function () {
     $("#submit").on("click", function test() {
         // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
         //Makes sure search isn't blank.
+        validateSearch();
         var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
         $.ajax({
             url: queryURL,
@@ -300,8 +310,12 @@ $(document).ready(function () {
         });
 
     })
+
+    $(".favorite").on("click", function () {
+        console.log("saved to favorites");
+    });
     
-        $('.carousel.carousel-slider').carousel({
+    $('.carousel.carousel-slider').carousel({
         fullWidth: true, 
         indicators: true,
         duration: 200
