@@ -188,7 +188,7 @@ $(document).ready(function () {
                         //  ingredientsArr.forEach(function (ingredient) {
                         let splitStr = ingredient.split(" ").join("%20");
                         console.log(splitStr);
-                        var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + splitStr + "?&appId=59c5899e&appKey=bbfaaa8dd350fbb95b6265798d4069e7&fields=item_name,nf_calories,nf_total_fat,nf_cholesterol,nf_total_carbohydrate,nf_dietary_fiber,nf_sugars,nf_protein,nf_potassium,nf_iron_dv,nf_sodium";
+                        var nutritionURL = "https://api.nutritionix.com/v1_1/search/" + splitStr + "?&appId=3d9a6196&appKey=68a05b8f20a5908648e499d5b974c8ae&fields=item_name,nf_calories,nf_total_fat,nf_cholesterol,nf_total_carbohydrate,nf_dietary_fiber,nf_sugars,nf_protein,nf_potassium,nf_iron_dv,nf_sodium";
                         //   });
 
                         $.ajax({
