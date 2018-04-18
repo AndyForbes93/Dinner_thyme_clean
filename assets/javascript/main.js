@@ -24,7 +24,14 @@ $(document).ready(function () {
             $("#userName").text("Currently signed in as " + user.email);
             $("#viewProfile").show();
 
-            profileInfo(user);
+           
+        $("#viewProfile").on("click", function() {
+            $("#container").hide();
+            let h1 = $("<h1>");
+            h1.text(user.email);
+            $("body").append(h1);
+        });
+    
         } else {
             // No user is signed in.
             $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
@@ -54,14 +61,7 @@ $(document).ready(function () {
     var user = firebase.auth().currentUser;
 
 
-    const profileInfo = function(user) {
-        $("#viewProfile").on("click", function() {
-            $("#container").hide();
-            let h1 = $("<h1>");
-            h1.text(user.email);
-            $("body").append(h1);
-        });
-    }
+
 
     $("#sign-in-Btn").on("click", function () {
         // handling sign in for users stored in firebase.
@@ -98,22 +98,6 @@ $(document).ready(function () {
     $("#closeModal").on("click", function () {
         $("#modal").hide();
     });
-
-    const validateSearch = function () {
-        if (search === "") {
-            $("#searchLabel").hide()
-            $("#invalidSearch").show();
-            setTimeout(function () {
-
-                $("#searchLabel").show();
-                $("#invalidSearch").hide();
-            }, 1000)
-        } else {
-            search = $("#ingredient-input").val();
-            $(".container").removeClass("hide");
-            $(".recipeCardContainer").html("");
-        }
-    }
 
     const makeRecipeCard = function (response) {
         let recipeCount = response.count;
@@ -288,9 +272,6 @@ $(document).ready(function () {
 
         $("#submit").on("click", function test() {
             // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
-
-            //Makes sure search isn't blank.
-            validateSearch();
 
             var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
 
