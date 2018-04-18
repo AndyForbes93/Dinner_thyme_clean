@@ -10,8 +10,7 @@ $(document).ready(function () {
 
     firebase.initializeApp(config);
     const database = firebase.database();
-    //add searchbar validation input
-    var search;
+
     var recipeIdArray = [];
 
     let signInEmail = $("#email_inline").val().trim();
