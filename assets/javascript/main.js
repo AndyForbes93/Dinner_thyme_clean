@@ -22,6 +22,7 @@ $(document).ready(function () {
             // User is signed in.
             $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
             $("#userName").text("Currently signed in as " + user.email);
+            $("#profileArea").html("<button id='viewProfile'>View Profile</button>");
         } else {
             // No user is signed in.
             $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
