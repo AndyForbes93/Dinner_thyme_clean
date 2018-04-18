@@ -158,7 +158,7 @@ $(document).ready(function () {
                                 </div>`);
                 $(recipeCard).append(recipeCardColumn);
                 $(".recipeCardContainer").append(recipeCard);
-                var url = `https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=716be10f3517e512858d539e14920f86&rId=${recipe.recipe_id}`;
+                var url = `https://cors-anywhere.herokuapp.com/https://community-food2fork.p.mashape.com/get?key=2faf058c37cad76f25dc0f61a8700b82&rId=${recipe.recipe_id}`;
                 $.ajax({
                     url: url,
                     method: "GET",
@@ -301,7 +301,7 @@ $(document).ready(function () {
         // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
         //Makes sure search isn't blank.
         validateSearch();
-        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=716be10f3517e512858d539e14920f86&q=" + search;
+        var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
         $.ajax({
             url: queryURL,
             method: "GET"
