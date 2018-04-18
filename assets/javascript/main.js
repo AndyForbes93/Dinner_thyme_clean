@@ -73,6 +73,7 @@ $(document).ready(function () {
     $("#signoutBtn").on("click", function () {
         firebase.auth().signOut().then(function (user) {
             // Sign-out successful.
+            $("#email_inline, #password_inline, #signupBtn, #sign-in-Btn").show();
             console.log(user.email + "Has signed out.");
         }).catch(function (error) {
             // An error happened.
