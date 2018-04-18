@@ -48,8 +48,10 @@ $(document).ready(function () {
         $("#email, #password").val("");
         $("#modal").hide();
     });
+    
     var user = firebase.auth().currentUser;
     console.log(user);
+
     const profileInfo = function() {
         $("#viewProfile").on("click", function() {
             $("#container").hide();
