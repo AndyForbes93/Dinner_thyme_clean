@@ -7,6 +7,7 @@ $(document).ready(function () {
         storageBucket: "dinner-thyme-acaba.appspot.com",
         messagingSenderId: "59448784946"
     };
+
     firebase.initializeApp(config);
     const database = firebase.database();
     //add searchbar validation input
@@ -29,7 +30,7 @@ $(document).ready(function () {
         }
     });
 
-
+    
     $("#createAcc").on("click", function (e) {
         e.preventDefault();
         let email = $("#email").val().trim();
@@ -41,16 +42,7 @@ $(document).ready(function () {
             var errorMessage = error.message;
         });
         $("#modal").hide();
-        $("#dropDown").html(`
-        <ul id='dropdown1' class='dropdown-content'>
-        <li><a href="#!">one</a></li>
-        <li><a href="#!">two</a></li>
-        <li class="divider" tabindex="-1"></li>
-        <li><a href="#!">three</a></li>
-        <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-        <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-        </ul>
-        `);
+        $("#profileArea").html("<a class='waves-effect waves-light btn right-align' id='signoutBtn'>View Profile</a>");
 
         $("#email").val("");
         $("#password").val("");
