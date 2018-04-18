@@ -107,7 +107,7 @@ $(document).ready(function () {
         var obj = jQuery.parseJSON(response);
         obj.recipes.forEach(function (recipe, index, arr) {
 
-            if (index <= 0) {
+            if (index <= 2) {
 
                 var recipeCard = $("<div>").addClass("row recipe-card");
                 var recipeCardColumn = $("<div>").addClass("col s10 m10");
