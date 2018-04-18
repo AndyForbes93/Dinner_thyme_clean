@@ -41,7 +41,8 @@ $(document).ready(function () {
             var errorMessage = error.message;
         });
         $("#modal").hide();
-        $("#profileArea").html("<a class='waves-effect waves-light btn right-align' id='signoutBtn'>View Profile</a>");
+        $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
+        $("#profileArea").html("<button id='signoutBtn'>View Profile</button>");
 
         $("#email").val("");
         $("#password").val("");
