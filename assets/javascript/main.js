@@ -292,7 +292,6 @@ $(document).ready(function () {
     $("#submit").on("click", function test() {
         // var queryURL = "http://cors-proxy.htmldriven.com/?url=http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=asparagus";
         //Makes sure search isn't blank.
-        validateSearch();
         var queryURL = "https://cors-anywhere.herokuapp.com/http://food2fork.com/api/search?key=2faf058c37cad76f25dc0f61a8700b82&q=" + search;
         $.ajax({
             url: queryURL,
