@@ -43,7 +43,7 @@ $(document).ready(function () {
         });
         $("#modal").hide();
         $("#signupBtn, #sign-in-Btn, #email_inline, #password_inline").hide();
-        $("#profileArea").html("<button id='viewProfile'>View Profile</button>");
+        $("#profileArea").append("<button id='viewProfile'>View Profile</button>");
 
         $("#email").val("");
         $("#password").val("");
